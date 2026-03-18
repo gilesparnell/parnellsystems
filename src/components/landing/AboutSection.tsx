@@ -83,7 +83,7 @@ export const AboutSection = () => {
 
               <div className="pt-8">
                 <a
-                  href="https://www.linkedin.com/in/giles-parnell-85a7bb14/"
+                  href="https://www.linkedin.com/in/gilesparnell/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:text-accent transition-colors"
