@@ -13,9 +13,9 @@ const services = [
 ];
 
 export const ServicesSection = () => (
-  <section id="services" className="py-24 lg:py-32">
+  <section id="services" className="py-24 lg:py-32 relative overflow-hidden">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
-      <div className="grid gap-16 lg:grid-cols-2">
+      <div className="grid gap-16 lg:grid-cols-2 items-start">
         <div>
           <FadeIn>
             <SectionLabel>Services</SectionLabel>
@@ -32,11 +32,14 @@ export const ServicesSection = () => (
           </FadeIn>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {services.map((service, i) => (
             <FadeIn key={i} delay={0.03 * i}>
-              <div className="flex items-center gap-3 rounded-lg px-4 py-3 bg-card" style={{ boxShadow: "var(--shadow-card)" }}>
-                <div className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+              <div
+                className="flex items-center gap-3 rounded-lg px-5 py-4 bg-card group hover:-translate-y-0.5 transition-all duration-200"
+                style={{ boxShadow: "var(--shadow-card)" }}
+              >
+                <div className="h-2 w-2 rounded-full bg-accent shrink-0" />
                 <span className="text-sm font-medium">{service}</span>
               </div>
             </FadeIn>
