@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "./FadeIn";
+import { FloatingShapes } from "./AbstractVisuals";
 import { ArrowRight } from "lucide-react";
 
 export const HeroSection = () => (
   <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-16">
     {/* Grid background */}
     <div
-      className="absolute inset-0 opacity-[0.35]"
+      className="absolute inset-0 opacity-[0.4]"
       style={{
         backgroundImage: `
           linear-gradient(to right, hsl(210 64% 12% / 0.06) 1px, transparent 1px),
@@ -18,6 +19,16 @@ export const HeroSection = () => (
       }}
     />
 
+    <FloatingShapes />
+
+    {/* Accent glow */}
+    <div
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+      style={{
+        background: "radial-gradient(circle, hsl(217 91% 60% / 0.06) 0%, transparent 60%)",
+      }}
+    />
+
     <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
       <FadeIn>
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-accent mb-6">
@@ -26,7 +37,11 @@ export const HeroSection = () => (
       </FadeIn>
       <FadeIn delay={0.05}>
         <h1 className="text-4xl sm:text-5xl lg:text-[4.5rem] font-semibold leading-[1.1] tracking-[-0.04em] text-balance">
-          Systems that scale without the noise
+          Systems that scale
+          <br />
+          <span className="bg-gradient-to-r from-foreground via-foreground to-accent bg-clip-text text-transparent">
+            without the noise
+          </span>
         </h1>
       </FadeIn>
       <FadeIn delay={0.1}>

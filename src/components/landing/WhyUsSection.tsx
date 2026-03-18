@@ -1,6 +1,7 @@
 import { FadeIn } from "./FadeIn";
 import { SectionLabel } from "./SectionLabel";
 import { Shield, Zap, Target, Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 const reasons = [
   { icon: Target, title: "Outcome-focused", description: "We measure success by results — hours saved, errors reduced, throughput increased." },
@@ -10,7 +11,7 @@ const reasons = [
 ];
 
 export const WhyUsSection = () => (
-  <section className="py-24 lg:py-32 bg-card">
+  <section className="py-24 lg:py-32 bg-card relative overflow-hidden">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="max-w-2xl">
         <FadeIn>
@@ -28,16 +29,23 @@ export const WhyUsSection = () => (
         </FadeIn>
       </div>
 
-      <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {reasons.map((item, i) => (
           <FadeIn key={i} delay={0.05 * i}>
-            <div className="space-y-3">
-              <item.icon size={20} className="text-accent" />
-              <h3 className="font-semibold">{item.title}</h3>
+            <motion.div
+              className="rounded-lg bg-background p-6 h-full group"
+              style={{ boxShadow: "var(--shadow-card)" }}
+              whileHover={{ y: -4, boxShadow: "0 0 0 1px rgba(11, 31, 51, 0.05), 0 10px 30px -10px rgba(11, 31, 51, 0.1)" }}
+              transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
+            >
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 mb-4">
+                <item.icon size={18} className="text-accent" />
+              </div>
+              <h3 className="font-semibold mb-2">{item.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed text-pretty">
                 {item.description}
               </p>
-            </div>
+            </motion.div>
           </FadeIn>
         ))}
       </div>
