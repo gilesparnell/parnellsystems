@@ -8,8 +8,11 @@ export const AboutSection = () => {
     e.preventDefault();
     // Generate a random number to shuffle the starting video of the playlist
     const randomIndex = Math.floor(Math.random() * 20) + 1; 
-    window.open(`https://www.youtube.com/watch?list=PL6Mjs8vvOmNv9sHUtsEdNdgPAuHv1PxU1&index=${randomIndex}`, "_blank", "noopener,noreferrer");
+    // Always provide a video ID (v=...) before the list so YouTube's player initializes correctly
+    window.open(`https://www.youtube.com/watch?v=eM40R5VToG0&list=PL6Mjs8vvOmNv9sHUtsEdNdgPAuHv1PxU1&index=${randomIndex}`, "_blank", "noopener,noreferrer");
   };
+
+  const bokkeText = "Viva die Bokke!";
 
   return (
     <section id="about" className="py-24 lg:py-32 bg-card relative overflow-hidden">
@@ -60,12 +63,21 @@ export const AboutSection = () => {
               <p className="font-semibold text-foreground text-xl pt-2">
                 And always...{" "}
                 <a
-                  href="https://www.youtube.com/watch?list=PL6Mjs8vvOmNv9sHUtsEdNdgPAuHv1PxU1"
+                  href="https://www.youtube.com/watch?v=eM40R5VToG0&list=PL6Mjs8vvOmNv9sHUtsEdNdgPAuHv1PxU1"
                   onClick={handleBokkeClick}
-                  className="text-accent italic hover:underline cursor-pointer"
+                  className="italic hover:underline cursor-pointer tracking-wide"
                   title="Shuffle Springboks playlist"
                 >
-                  Viva die Bokke!
+                  {bokkeText.split("").map((char, i) => {
+                    if (char === " ") return <span key={i}> </span>;
+                    // Slightly brighter versions of Green and Gold for dark-mode legibility
+                    const color = i % 2 === 0 ? "#4ade80" : "#fbbf24"; 
+                    return (
+                      <span key={i} style={{ color }}>
+                        {char}
+                      </span>
+                    );
+                  })}
                 </a>
               </p>
 
