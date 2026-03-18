@@ -42,9 +42,11 @@ export const CTASection = () => (
         </FadeIn>
         <FadeIn delay={0.1}>
           <div className="mt-10">
-            <Button variant="cta" size="xl">
-              Book a free system audit
-              <ArrowRight className="ml-1" size={16} />
+            <Button variant="cta" size="xl" asChild>
+              <a href="https://api.leadconnectorhq.com/widget/booking/8FhAQk87HxZX5NEuA4s5" target="_blank" rel="noopener noreferrer">
+                Book a free system audit
+                <ArrowRight className="ml-1" size={16} />
+              </a>
             </Button>
           </div>
         </FadeIn>

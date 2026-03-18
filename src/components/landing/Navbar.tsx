@@ -25,7 +25,7 @@ export const Navbar = () => {
             </a>
           ))}
           <Button variant="cta" size="sm" asChild>
-            <a href="#cta">Book an audit</a>
+            <a href="https://api.leadconnectorhq.com/widget/booking/8FhAQk87HxZX5NEuA4s5" target="_blank" rel="noopener noreferrer">Book an audit</a>
           </Button>
         </div>
 
@@ -50,7 +50,7 @@ export const Navbar = () => {
             </a>
           ))}
           <Button variant="cta" size="sm" className="w-full" asChild>
-            <a href="#cta">Book an audit</a>
+            <a href="https://api.leadconnectorhq.com/widget/booking/8FhAQk87HxZX5NEuA4s5" target="_blank" rel="noopener noreferrer">Book an audit</a>
           </Button>
         </div>
       )}
