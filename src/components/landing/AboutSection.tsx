@@ -37,7 +37,7 @@ export const AboutSection = () => {
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
-              <div className="mt-10 relative group w-64 h-64 sm:w-80 sm:h-80 mx-auto lg:mx-0">
+              <div className="mt-10 relative group w-32 h-32 sm:w-40 sm:h-40 mx-auto lg:mx-0">
                 <div className="absolute inset-0 bg-accent rounded-3xl rotate-3 scale-105 opacity-20 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110" />
                 <img
                   src="/profile.jpg"
