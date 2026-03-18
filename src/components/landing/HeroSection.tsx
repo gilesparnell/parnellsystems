@@ -10,8 +10,8 @@ export const HeroSection = () => (
       className="absolute inset-0 opacity-[0.4]"
       style={{
         backgroundImage: `
-          linear-gradient(to right, hsl(210 64% 12% / 0.06) 1px, transparent 1px),
-          linear-gradient(to bottom, hsl(210 64% 12% / 0.06) 1px, transparent 1px)
+          linear-gradient(to right, hsl(var(--accent) / 0.15) 1px, transparent 1px),
+          linear-gradient(to bottom, hsl(var(--accent) / 0.15) 1px, transparent 1px)
         `,
         backgroundSize: "40px 40px",
         maskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)",
@@ -25,7 +25,7 @@ export const HeroSection = () => (
     <div
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
       style={{
-        background: "radial-gradient(circle, hsl(217 91% 60% / 0.06) 0%, transparent 60%)",
+        background: "radial-gradient(circle, hsl(var(--accent) / 0.20) 0%, transparent 60%)",
       }}
     />
 
@@ -39,7 +39,7 @@ export const HeroSection = () => (
         <h1 className="text-4xl sm:text-5xl lg:text-[4.5rem] font-semibold leading-[1.1] tracking-[-0.04em] text-balance">
           Systems that scale
           <br />
-          <span className="bg-gradient-to-r from-foreground via-foreground to-accent bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-accent bg-clip-text text-transparent drop-shadow-sm">
             without the noise
           </span>
         </h1>
