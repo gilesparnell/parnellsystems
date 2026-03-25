@@ -1,0 +1,68 @@
+{
+  "mcpServers": {
+
+    "google-calendar": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/google-calendar-mcp"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "YOUR_GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET": "YOUR_GOOGLE_CLIENT_SECRET",
+        "GOOGLE_REFRESH_TOKEN": "YOUR_GILESPARNELL_GMAIL_REFRESH_TOKEN"
+      }
+    },
+
+    "gmail-personal": {
+      "comment": "gilesparnell@gmail.com — personal",
+      "command": "npx",
+      "args": ["-y", "@gptscript-ai/gmail-oauth-mcp"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "YOUR_GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET": "YOUR_GOOGLE_CLIENT_SECRET",
+        "GOOGLE_REFRESH_TOKEN": "YOUR_GILESPARNELL_GMAIL_REFRESH_TOKEN",
+        "GMAIL_ACCOUNT": "gilesparnell@gmail.com"
+      }
+    },
+
+    "gmail-secondary": {
+      "comment": "gilesparnell69@gmail.com — secondary",
+      "command": "npx",
+      "args": ["-y", "@gptscript-ai/gmail-oauth-mcp"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "YOUR_GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET": "YOUR_GOOGLE_CLIENT_SECRET",
+        "GOOGLE_REFRESH_TOKEN": "YOUR_GILESPARNELL69_REFRESH_TOKEN",
+        "GMAIL_ACCOUNT": "gilesparnell69@gmail.com"
+      }
+    },
+
+    "gmail-allconvos": {
+      "comment": "giles@allconvos.ai — business",
+      "command": "npx",
+      "args": ["-y", "@gptscript-ai/gmail-oauth-mcp"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "YOUR_ALLCONVOS_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET": "YOUR_ALLCONVOS_CLIENT_SECRET",
+        "GOOGLE_REFRESH_TOKEN": "YOUR_ALLCONVOS_REFRESH_TOKEN",
+        "GMAIL_ACCOUNT": "giles@allconvos.ai"
+      }
+    },
+
+    "clickup": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/clickup-mcp"],
+      "env": {
+        "CLICKUP_API_KEY": "YOUR_CLICKUP_API_KEY"
+      }
+    },
+
+    "granola": {
+      "comment": "Granola meeting notes — if CLI support becomes available",
+      "command": "npx",
+      "args": ["-y", "@granola-ai/mcp"],
+      "env": {
+        "GRANOLA_API_KEY": "YOUR_GRANOLA_API_KEY"
+      }
+    }
+
+  }
+}

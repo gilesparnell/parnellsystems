@@ -7,7 +7,7 @@ export const AboutSection = () => {
   const handleBokkeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     // Generate a random number to shuffle the starting video of the playlist
-    const randomIndex = Math.floor(Math.random() * 20) + 1; 
+    const randomIndex = Math.floor(Math.random() * 20) + 1;
     // Always provide a video ID (v=...) before the list so YouTube's player initializes correctly
     window.open(`https://www.youtube.com/watch?v=eM40R5VToG0&list=PL6Mjs8vvOmNv9sHUtsEdNdgPAuHv1PxU1&index=${randomIndex}`, "_blank", "noopener,noreferrer");
   };
@@ -55,10 +55,10 @@ export const AboutSection = () => {
                 With over 20 years of experience shaping global engineering teams across startups, AWS, and enterprise environments, my true passion lies in bridging business vision with technical execution to deliver real impact.
               </p>
               <p>
-                My philosophy is rooted in the Amazon Leadership Principles—working backwards from the customer. But equally, I believe that building lasting systems fundamentally relies on empowering people. Shaped by my South African roots and the concept of <em>Ubuntu</em> (we grow stronger together), I prioritise vibrant cultures built on trust, service, and wellness before hustle.
+                My philosophy is rooted in the Amazon Leadership Principles—working backwards from the customer, earning trust, and delivering exceptional results. But equally, I believe that building lasting systems fundamentally relies on empowering people. Shaped by my South African roots and the concept of <em>Ubuntu</em> (we grow stronger together), I prioritise vibrant cultures built on trust, service, and wellness before hustle.
               </p>
               <p>
-                 Whether diving into autonomous technologies, renewable energy, or solving complex operational bottlenecks, my mission remains simple: leave things better than I found them, bring others along the way, and build with absolute integrity.
+                Whether diving into autonomous technologies, renewable energy, or solving complex operational bottlenecks, my mission remains simple: leave things better than I found them, bring others along the way, and build with absolute integrity.
               </p>
               <p className="font-semibold text-foreground text-sm pt-4">
                 And always remember...{" "}
@@ -71,7 +71,7 @@ export const AboutSection = () => {
                   {bokkeText.split("").map((char, i) => {
                     if (char === " ") return <span key={i}> </span>;
                     // Slightly brighter versions of Green and Gold for dark-mode legibility
-                    const color = i % 2 === 0 ? "#4ade80" : "#fbbf24"; 
+                    const color = i % 2 === 0 ? "#4ade80" : "#fbbf24";
                     return (
                       <span key={i} style={{ color }}>
                         {char}

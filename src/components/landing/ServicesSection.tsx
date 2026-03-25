@@ -1,5 +1,6 @@
 import { FadeIn } from "./FadeIn";
 import { SectionLabel } from "./SectionLabel";
+import { ArrowRight, Brain, Mic, GraduationCap } from "lucide-react";
 
 const coreServices = [
   {
@@ -118,6 +119,99 @@ export const ServicesSection = () => (
             </p>
           </div>
         </FadeIn>
+      </div>
+
+      {/* Three service teasers */}
+      <div className="mt-16 grid gap-5 lg:grid-cols-3">
+
+        {/* Intelligence Layer — featured */}
+        <FadeIn delay={0.05} className="lg:col-span-1">
+          <a
+            href="/intelligence-layer"
+            className="flex flex-col gap-4 rounded-xl px-7 py-7 border border-accent/30 bg-accent/5 hover:bg-accent/10 hover:border-accent/50 transition-all duration-300 group h-full"
+            style={{ boxShadow: "0 0 40px hsl(var(--accent) / 0.08)" }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-accent/15 shrink-0">
+                <Brain size={17} className="text-accent" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-accent flex items-center gap-1.5">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                Intelligence Layer
+              </span>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-foreground tracking-[-0.02em] leading-snug">
+                Your business, running on AI.
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                A bespoke AI operating system that knows your business, remembers everything, and acts on your behalf.
+              </p>
+            </div>
+            <div className="mt-auto flex items-center gap-1.5 text-xs font-medium text-accent group-hover:gap-2.5 transition-all duration-200">
+              Learn more <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </a>
+        </FadeIn>
+
+        {/* Voice & SMS */}
+        <FadeIn delay={0.1} className="lg:col-span-1">
+          <a
+            href="/voice-sms"
+            className="flex flex-col gap-4 rounded-xl px-7 py-7 border border-border bg-card hover:border-accent/30 hover:bg-accent/5 transition-all duration-300 group h-full"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-muted shrink-0">
+                <Mic size={17} className="text-muted-foreground group-hover:text-accent transition-colors duration-200" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground group-hover:text-accent transition-colors duration-200">
+                AI Voice & SMS
+              </span>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-foreground tracking-[-0.02em] leading-snug">
+                Never miss a lead again.
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                AI that answers calls, follows up by SMS, and books appointments — 24/7, without you.
+              </p>
+            </div>
+            <div className="mt-auto flex items-center gap-1.5 text-xs font-medium text-muted-foreground group-hover:text-accent group-hover:gap-2.5 transition-all duration-200">
+              See demos <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </a>
+        </FadeIn>
+
+        {/* Training */}
+        <FadeIn delay={0.15} className="lg:col-span-1">
+          <a
+            href="/training"
+            className="flex flex-col gap-4 rounded-xl px-7 py-7 border border-border bg-card hover:border-accent/30 hover:bg-accent/5 transition-all duration-300 group h-full"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-muted shrink-0">
+                <GraduationCap size={17} className="text-muted-foreground group-hover:text-accent transition-colors duration-200" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground group-hover:text-accent transition-colors duration-200">
+                AI Training
+              </span>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-foreground tracking-[-0.02em] leading-snug">
+                Learn AI before your competitors do.
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                Claude and Antigravity courses built for SME owners — no tech background needed.
+              </p>
+            </div>
+            <div className="mt-auto flex items-center gap-1.5 text-xs font-medium text-muted-foreground group-hover:text-accent group-hover:gap-2.5 transition-all duration-200">
+              View courses <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+            </div>
+          </a>
+        </FadeIn>
+
       </div>
 
     </div>
