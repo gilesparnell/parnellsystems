@@ -14,16 +14,22 @@ const claudeCourses = [
     bgLight: "E8F5E9",
     badge: "🟢",
     title: "Your First AI Employee",
-    tagline: "Get Claude working for your business this week — no tech skills required.",
+    tagline: "Walk in curious. Walk out using Claude in your business — the same day.",
     duration: "~2 hours",
     level_label: "Beginner",
-    description: "Zero assumed knowledge. By the end of this course you'll have moved from 'I've heard of ChatGPT' to using Claude every single day in your business. Warm, practical, jargon-free — with everything shown in the context of real SME scenarios.",
+    format: "Live workshop",
+    description: "Zero assumed knowledge required. Every exercise uses your own business — real emails, real documents, real meetings — so the value is immediate and undeniable. Most participants cut their email drafting time from 15+ minutes to under 2 by end of session. You'll leave with 5 repeatable use cases already working, and a 7-Day Challenge to lock in the habit.",
     modules: [
-      "What is Claude, and why does it matter for your business?",
-      "Getting set up — account, plan, first conversation",
-      "Talking to Claude: the basics of prompting",
-      "Your first 5 business use cases",
-      "Saving time today: building a daily habit",
+      "What is Claude and why SMEs are winning with it",
+      "Getting set up: account, plan, first real conversation",
+      "Talking to Claude: the basics of clear prompting",
+      "The Quick Wins Framework: 5 use cases you can run today",
+      "  → Write any professional email in 60 seconds",
+      "  → Summarise any document instantly",
+      "  → Prep for any meeting in 5 minutes",
+      "  → Generate a week of social content from bullet points",
+      "  → Answer customer questions & handle objections",
+      "Building your daily Claude habit — the 7-Day Challenge",
     ],
   },
   {
@@ -32,10 +38,11 @@ const claudeCourses = [
     bgLight: "FFF9E6",
     badge: "🟡",
     title: "Making Claude Work Your Way",
-    tagline: "Stop one-off prompts. Start building repeatable AI workflows — and see real business results.",
+    tagline: "Teach Claude your business. Build systems that save hours every week.",
     duration: "~3 hours",
     level_label: "Intermediate",
-    description: "Move from occasional Claude use to real, measurable business impact. You'll teach Claude your business, build a prompt library, and work through the SME Value Framework — 5 high-impact use cases designed to increase revenue, reduce costs, and give back time. You leave with working systems, not just knowledge.",
+    format: "Live workshop",
+    description: "You've used Claude. Now make it work specifically for your business. You'll write a business context document Claude can reference in every conversation, build a reusable prompt library, and work through the SME Value Framework — 5 high-impact use cases built to increase revenue, cut costs, and give back time. Proposals that used to take an afternoon. Marketing content that used to need a freelancer. You leave with working systems, not just knowledge.",
     modules: [
       "Teaching Claude about your business",
       "Advanced prompting: role, chain-of-thought, iteration",
@@ -56,18 +63,22 @@ const claudeCourses = [
     bgLight: "FDECEA",
     badge: "🔴",
     title: "Building Your Intelligence Layer",
-    tagline: "Connect Claude to your business systems and let it start running things for you.",
-    duration: "4–5 hours",
+    tagline: "Stop running your business manually. Build the AI systems that run it for you.",
+    duration: "Full day (6–7 hrs)",
     level_label: "Advanced",
-    description: "This is where Claude stops being a tool and becomes infrastructure. Covers agents, automation, and connecting Claude to your business tools. Introduces OpenClaw and Antigravity. You'll leave with a concrete roadmap for your own Intelligence Layer.",
+    format: "Small cohort · max 12",
+    description: "For Claude 101 + 102 graduates ready to go beyond prompting. This full-day workshop is where Claude stops being a productivity tool and becomes the operational backbone of your business. You'll design and build 5 live systems — including an automated client onboarding flow that cuts a 3–4 hour process to under 30 minutes, and a daily AI intelligence brief that runs without you. Bring your laptop and access to your CRM. You leave with a personalised Intelligence Layer Blueprint and a 90-day implementation roadmap.",
     modules: [
-      "What is an AI agent, and why does it change everything?",
-      "Claude + your tools: integrations overview",
-      "Designing your business intelligence map",
-      "Automation fundamentals — no coding required",
-      "Antigravity & OpenClaw: extending Claude's reach",
-      "Designing your personal Intelligence Layer",
-      "Security, trust, and staying in control",
+      "Recap and readiness: from daily user to system designer",
+      "The Intelligence Layer Framework: Input → Memory → Processing → Output → Action",
+      "The Intelligence Layer Blueprint: 5 systems that transform how your business runs",
+      "  → Automated client onboarding system",
+      "  → AI business intelligence & daily brief",
+      "  → Autonomous lead follow-up system",
+      "  → Living knowledge base & institutional memory",
+      "  → Intelligence Layer design session (capstone)",
+      "Your 90-day implementation roadmap",
+      "Peer review, accountability, and the group follow-up",
     ],
   },
 ];
@@ -130,7 +141,7 @@ const antigravityCourses = [
 /* ─── Components ─────────────────────────────────────────────────── */
 
 interface CourseCardProps {
-  course: typeof claudeCourses[0] & { comingSoon?: boolean };
+  course: typeof claudeCourses[0] & { comingSoon?: boolean; format?: string };
   tool: "claude" | "antigravity";
 }
 
@@ -184,27 +195,32 @@ const CourseCard = ({ course, tool }: CourseCardProps) => (
           </ul>
         </div>
 
-        <div className="mt-auto flex items-center justify-between pt-3 border-t border-border/50">
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Clock size={12} />
-            {course.duration}
+        <div className="mt-auto flex flex-col gap-3 pt-3 border-t border-border/50">
+          {course.format && (
+            <p className="text-[10px] text-muted-foreground/70 uppercase tracking-wide font-medium">{course.format}</p>
+          )}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Clock size={12} />
+              {course.duration}
+            </div>
+            <Button
+              variant={course.comingSoon ? "outline" : "cta"}
+              size="sm"
+              asChild={!course.comingSoon}
+              disabled={course.comingSoon}
+              className={course.comingSoon ? "opacity-50 cursor-not-allowed" : ""}
+            >
+              {course.comingSoon ? (
+                <span>Notify me</span>
+              ) : (
+                <a href="https://api.leadconnectorhq.com/widget/booking/m8K2i912qEb19UyxsSGe" target="_blank" rel="noopener noreferrer">
+                  Book your spot
+                  <ArrowRight size={13} className="ml-1" />
+                </a>
+              )}
+            </Button>
           </div>
-          <Button
-            variant={course.comingSoon ? "outline" : "cta"}
-            size="sm"
-            asChild={!course.comingSoon}
-            disabled={course.comingSoon}
-            className={course.comingSoon ? "opacity-50 cursor-not-allowed" : ""}
-          >
-            {course.comingSoon ? (
-              <span>Notify me</span>
-            ) : (
-              <a href="https://api.leadconnectorhq.com/widget/booking/m8K2i912qEb19UyxsSGe" target="_blank" rel="noopener noreferrer">
-                Enquire
-                <ArrowRight size={13} className="ml-1" />
-              </a>
-            )}
-          </Button>
         </div>
       </div>
     </div>
@@ -254,7 +270,7 @@ export default function Training() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="mt-6 text-lg sm:text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto text-pretty">
-              Practical AI training for SME owners — no IT department, no coding, no jargon. Learn Claude and Antigravity through hands-on courses designed around how real businesses work. From your first prompt to building a full AI operating system.
+              Practical, hands-on AI training for SME owners — no IT department, no coding, no jargon. Real exercises, real business scenarios, real results. From your first prompt to a fully automated AI operating system.
             </p>
           </FadeIn>
           <FadeIn delay={0.15}>
@@ -280,9 +296,9 @@ export default function Training() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid sm:grid-cols-3 gap-8 text-center">
             {[
-              { icon: Users, title: "Built for non-technical owners", desc: "No IT background assumed. Every course is designed around how SME owners actually work and think." },
-              { icon: BookOpen, title: "Practical from lesson one", desc: "Every module has immediate real-world application. You'll use what you learn the same day." },
-              { icon: CheckCircle, title: "The path to your Intelligence Layer", desc: "These courses are the foundation. 103-level mastery is how you start building your AI OS." },
+              { icon: Users, title: "Built for non-technical owners", desc: "No IT background assumed. Every course is designed around how SME owners actually work — with real examples from real businesses." },
+              { icon: BookOpen, title: "Real results from session one", desc: "Every exercise uses your own business. Most participants cut email drafting time by 80% before they leave the room." },
+              { icon: CheckCircle, title: "The path to your Intelligence Layer", desc: "These courses are the foundation. 103-level mastery is how you start building your AI operating system." },
             ].map((item, i) => (
               <FadeIn key={i} delay={0.06 * i}>
                 <div className="flex flex-col items-center gap-3">
