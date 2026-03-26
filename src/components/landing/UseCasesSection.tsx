@@ -5,17 +5,20 @@ const cases = [
   {
     metric: "60%",
     label: "reduction in onboarding time",
-    description: "Structured documentation and automated provisioning for a 200-person SaaS company.",
+    industry: "SaaS Scale-up",
+    description: "A 200-person SaaS company losing new hires to slow setup now runs structured documentation and automated provisioning from day one.",
   },
   {
     metric: "15hrs",
     label: "saved per week",
-    description: "Automated reporting workflows for an operations team spending half their time in spreadsheets.",
+    industry: "Operations Team",
+    description: "An operations team spending half their time in spreadsheets now runs automated weekly reporting with zero manual data wrangling.",
   },
   {
     metric: "3x",
     label: "faster incident response",
-    description: "Unified alerting and runbook system for an infrastructure team managing 40+ services.",
+    industry: "Infrastructure Team",
+    description: "An infrastructure team firefighting across 40+ services now resolves incidents through a unified alerting and runbook system.",
   },
 ];
 
@@ -51,6 +54,9 @@ export const UseCasesSection = () => (
             >
               {/* Accent bar at top */}
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent/60 via-accent to-accent/60" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground bg-muted/30 rounded-full px-2.5 py-0.5 inline-block mb-3">
+                {item.industry}
+              </span>
               <div className="text-4xl font-bold text-accent">{item.metric}</div>
               <div className="mt-2 text-sm font-semibold text-foreground">{item.label}</div>
               <p className="mt-4 text-sm text-muted-foreground leading-relaxed text-pretty">

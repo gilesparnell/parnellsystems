@@ -37,8 +37,8 @@ export const AboutSection = () => {
               </h2>
             </FadeIn>
             <FadeIn delay={0.1} className="w-full">
-              <div className="mt-10 relative group w-32 h-32 sm:w-40 sm:h-40 mx-auto lg:mx-0 lg:ml-auto">
-                <div className="absolute inset-0 bg-accent rounded-3xl rotate-3 scale-105 opacity-20 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110" />
+              <div className="mt-10 relative group w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 mx-auto lg:mx-0 lg:ml-auto">
+                <div className="absolute inset-0 bg-accent rounded-3xl rotate-3 scale-[1.06] opacity-20 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-[1.12]" />
                 <img
                   src="/profile.jpg"
                   alt="Giles Parnell"
@@ -51,6 +51,13 @@ export const AboutSection = () => {
           {/* Biography Content */}
           <FadeIn delay={0.15}>
             <div className="space-y-6 text-muted-foreground leading-relaxed text-pretty text-lg">
+              <div className="flex flex-wrap gap-2 mb-8">
+                {["20+ years experience", "Ex-AWS Principal Engineer", "40+ teams served", "Global delivery"].map((label) => (
+                  <span key={label} className="inline-flex items-center px-3 py-1.5 rounded-full bg-muted/50 text-xs text-muted-foreground font-medium border border-border/50">
+                    {label}
+                  </span>
+                ))}
+              </div>
               <p>
                 With over 20 years of experience shaping global engineering teams across startups, AWS, and enterprise environments, my true passion lies in bridging business vision with technical execution to deliver real impact.
               </p>
@@ -66,7 +73,7 @@ export const AboutSection = () => {
                   href="https://www.youtube.com/watch?v=eM40R5VToG0&list=PL6Mjs8vvOmNv9sHUtsEdNdgPAuHv1PxU1"
                   onClick={handleBokkeClick}
                   className="italic hover:underline cursor-pointer tracking-wide text-xs"
-                  title="Shuffle Springboks playlist"
+                  title="Springboks Rugby — South Africa's national team"
                 >
                   {bokkeText.split("").map((char, i) => {
                     if (char === " ") return <span key={i}> </span>;

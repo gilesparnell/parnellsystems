@@ -1,14 +1,14 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { ProblemSection } from "@/components/landing/ProblemSection";
-import { WhatWeDoSection } from "@/components/landing/WhatWeDoSection";
-import { WhoItsForSection } from "@/components/landing/WhoItsForSection";
-import { WhyUsSection } from "@/components/landing/WhyUsSection";
+import { ServicesSection } from "@/components/landing/ServicesSection";
+import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { UseCasesSection } from "@/components/landing/UseCasesSection";
 import { ProcessSection } from "@/components/landing/ProcessSection";
-import { ServicesSection } from "@/components/landing/ServicesSection";
+import { FAQSection } from "@/components/landing/FAQSection";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { CTASection } from "@/components/landing/CTASection";
+import { ContactFormSection } from "@/components/landing/ContactFormSection";
 import { Footer } from "@/components/landing/Footer";
 
 const Index = () => (
@@ -16,14 +16,14 @@ const Index = () => (
     <Navbar />
     <HeroSection />
     <ProblemSection />
-    <WhatWeDoSection />
-    <WhoItsForSection />
-    <WhyUsSection />
+    <ServicesSection />
+    <SocialProofSection />
     <UseCasesSection />
     <ProcessSection />
-    <ServicesSection />
+    <FAQSection />
     <AboutSection />
     <CTASection />
+    <ContactFormSection />
     <Footer />
   </div>
 );

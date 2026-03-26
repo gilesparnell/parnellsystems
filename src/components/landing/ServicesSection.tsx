@@ -1,6 +1,6 @@
 import { FadeIn } from "./FadeIn";
 import { SectionLabel } from "./SectionLabel";
-import { ArrowRight, Brain, Mic, GraduationCap } from "lucide-react";
+import { ArrowRight, Brain, Mic, GraduationCap, Layers, Cog, BarChart3 } from "lucide-react";
 
 const coreServices = [
   {
@@ -36,12 +36,45 @@ const pillars = [
   },
 ];
 
+const capabilities = [
+  {
+    icon: Layers,
+    title: "Systems Architecture",
+    desc: "We design how your tools, data, and workflows connect.",
+  },
+  {
+    icon: Cog,
+    title: "Process Automation",
+    desc: "We eliminate manual bottlenecks with automated workflows.",
+  },
+  {
+    icon: BarChart3,
+    title: "Operational Analytics",
+    desc: "We instrument your systems so you can measure what matters.",
+  },
+];
+
 export const ServicesSection = () => (
   <section id="services" className="py-24 lg:py-32 relative overflow-hidden">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
-      
+
+      {/* Capabilities Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        {capabilities.map((cap, i) => (
+          <FadeIn key={i} delay={0.05 * i}>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-center bg-accent/10 rounded-md h-8 w-8">
+                <cap.icon size={16} className="text-accent" />
+              </div>
+              <h3 className="text-base font-semibold text-foreground">{cap.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{cap.desc}</p>
+            </div>
+          </FadeIn>
+        ))}
+      </div>
+
       {/* Services Grid */}
-      <div className="grid gap-16 lg:grid-cols-2 items-start">
+      <div className="mt-20 pt-16 border-t border-border grid gap-16 lg:grid-cols-2 items-start">
         {/* Left Column */}
         <div>
           <FadeIn>

@@ -37,16 +37,17 @@ export const HeroSection = () => (
       </FadeIn>
       <FadeIn delay={0.05}>
         <h1 className="text-4xl sm:text-5xl lg:text-[4.5rem] font-semibold leading-[1.1] tracking-[-0.04em] text-balance">
-          Systems that scale
+          Disconnected tools, tribal knowledge,
           <br />
+          manual processes&mdash;
           <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-accent bg-clip-text text-transparent drop-shadow-sm">
-            without the noise
+            replaced with systems that scale
           </span>
         </h1>
       </FadeIn>
       <FadeIn delay={0.1}>
         <p className="mt-6 text-lg sm:text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto text-pretty">
-          We audit, architect, and implement the systems that allow your team to focus on the work that matters. No hype, just high-performance infrastructure.
+          For founders scaling past the duct-tape stage and ops leaders tired of firefighting&mdash;we audit, architect, and implement the infrastructure your team actually needs.
         </p>
       </FadeIn>
       <FadeIn delay={0.15}>
@@ -57,10 +58,11 @@ export const HeroSection = () => (
               <ArrowRight className="ml-1" size={16} />
             </a>
           </Button>
-          <Button variant="outline" size="xl" asChild>
-            <a href="#services">Learn more</a>
-          </Button>
         </div>
+        {/* TODO: Replace with real client references */}
+        <p className="text-xs text-muted-foreground mt-6">
+          Trusted by SaaS companies, operations teams, and scaling founders
+        </p>
       </FadeIn>
     </div>
   </section>

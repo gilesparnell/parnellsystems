@@ -4,11 +4,11 @@ import { ArrowRight } from "lucide-react";
 
 export const CTASection = () => (
   <section id="cta" className="py-24 lg:py-32 relative overflow-hidden">
-    {/* Gradient background */}
+    {/* Accent glow */}
     <div
-      className="absolute inset-0"
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full pointer-events-none"
       style={{
-        background: "linear-gradient(135deg, hsl(210 33% 96%) 0%, hsl(217 91% 60% / 0.06) 50%, hsl(210 33% 96%) 100%)",
+        background: "radial-gradient(ellipse, hsl(var(--accent) / 0.12) 0%, transparent 60%)",
       }}
     />
 
@@ -17,10 +17,12 @@ export const CTASection = () => (
       className="absolute inset-0 opacity-20"
       style={{
         backgroundImage: `
-          linear-gradient(to right, hsl(210 64% 12% / 0.04) 1px, transparent 1px),
-          linear-gradient(to bottom, hsl(210 64% 12% / 0.04) 1px, transparent 1px)
+          linear-gradient(to right, hsl(var(--accent) / 0.06) 1px, transparent 1px),
+          linear-gradient(to bottom, hsl(var(--accent) / 0.06) 1px, transparent 1px)
         `,
         backgroundSize: "32px 32px",
+        maskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
+        WebkitMaskImage: "radial-gradient(ellipse at center, black 40%, transparent 80%)",
       }}
     />
 
@@ -30,7 +32,7 @@ export const CTASection = () => (
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight tracking-[-0.03em] text-balance">
             Ready to bring order
             <br />
-            <span className="bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-accent bg-clip-text text-transparent">
               to your operations?
             </span>
           </h2>
