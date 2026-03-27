@@ -21,90 +21,90 @@ import {
 
 const problems = [
   {
-    text: "Decisions made last month live in someone's head — not documented, not searchable, not transferable.",
+    text: "Every new client takes 3–4 hours to onboard — chasing paperwork, writing the same welcome emails, scheduling the same calls. Every. Single. Time.",
   },
   {
-    text: "Your team spends hours context-switching between tools before they can do the actual work.",
+    text: "A lead fills out your form on Saturday. You call them Monday. Your competitor called in 5 minutes.",
   },
   {
-    text: "Every meeting produces actions that fall through the cracks because no system captures them.",
+    text: "Meetings happen, action items get agreed, and then… nothing. No system captures them. No one follows up.",
   },
   {
-    text: "Onboarding a new operator takes weeks because institutional knowledge isn't written down anywhere.",
+    text: "Your best employee leaves. Everything they knew about how the business runs walks out the door with them.",
   },
 ];
 
 const deliverables = [
   {
     icon: BookOpen,
-    label: "KNOWLEDGE BASE",
-    title: "Your institutional memory, automated.",
-    desc: "Every meeting note, decision log, team update, and action item — automatically captured, organised, and searchable. Your AI knows what happened last month, last quarter, and why decisions were made. When someone asks 'why did we choose X over Y?', you have the full rationale — not a vague memory.",
-    items: ["Meeting notes & transcripts", "Decision records with full context", "Team & stakeholder profiles", "Action item tracking"],
+    label: "NOTHING FALLS THROUGH THE CRACKS",
+    title: "Every decision, every meeting, every action — captured automatically.",
+    desc: "Your business builds institutional memory as a side effect of working. Meeting notes write themselves. Action items get tracked. When someone asks 'why did we decide that?', you have the answer — not a vague memory. New hires get up to speed in days, not weeks, because the knowledge is searchable, not locked in someone's head.",
+    items: ["Meeting notes & action items — captured automatically", "Decision records with full context and rationale", "Client & stakeholder history", "New hire onboarding that doesn't depend on one person"],
   },
   {
     icon: Plug,
-    label: "TOOL CONNECTIONS",
-    title: "Connected to where work actually happens.",
-    desc: "Your AI is wired directly into your existing tools via MCP — the same protocol that powers the most advanced AI agents in the world. Say 'post this to Slack', 'what's on my calendar tomorrow', or 'schedule a 1:1 with the team' — and it just happens. No tab switching. No context loss.",
-    items: ["Google Calendar & Gmail", "Slack & team messaging", "ClickUp & project management", "Any tool via MCP integration"],
+    label: "YOUR TOOLS, TALKING TO EACH OTHER",
+    title: "Stop switching between 11 tabs to start actual work.",
+    desc: "Your email, calendar, CRM, project management, and messaging — connected into one system that works together. Say 'what's on my calendar tomorrow', 'send the onboarding pack to the new client', or 'post this update to the team' — and it happens. No tab switching. No copy-pasting between tools. No context lost.",
+    items: ["Google Calendar & Gmail", "CRM & client management", "Slack, Teams & messaging", "Any tool your business already uses"],
   },
   {
     icon: Layers,
-    label: "SKILLS LIBRARY",
-    title: "Pre-built for your role and vertical.",
-    desc: "A curated library of AI capabilities tailored to how you actually work — not generic chatbot templates. Your AI knows how to prep a 1:1, draft a client proposal, summarise a pipeline, log a strategic decision, or onboard a new hire. And it learns the nuances of your business over time.",
-    items: ["Role-specific workflow skills", "Document generation (reports, proposals)", "Communication & outreach", "Custom skills built for your business"],
+    label: "SYSTEMS THAT RUN WITHOUT YOU",
+    title: "Client onboarding. Lead follow-up. Proposals. Running automatically.",
+    desc: "Pre-built systems tailored to how your business actually works — not generic templates. Client onboarding that used to take 3–4 hours now runs in under 30 minutes. Leads get followed up within minutes, not days. Proposals get drafted from a single conversation. And every system gets smarter the longer it runs.",
+    items: ["Automated client onboarding", "Lead follow-up that never misses", "Proposal & quote generation", "Custom systems built for your business"],
   },
 ];
 
 const phases = [
   {
     number: "01",
-    title: "Discover",
-    desc: "We map your day — the tools you use, decisions you make, meetings you run, and the institutional knowledge that currently lives only in your head.",
+    title: "Audit",
+    desc: "Free 30-minute call. We map your biggest time sinks, your tools, and the 3 things costing you the most hours every week. You leave with a clear picture — even if you go no further.",
   },
   {
     number: "02",
-    title: "Configure",
-    desc: "We connect your tools, seed your initial knowledge base, and configure a skills library tailored to your exact role and business context.",
+    title: "Build",
+    desc: "We connect your tools, set up your knowledge base, and build the automated systems specific to your business. Done for you — not DIY.",
   },
   {
     number: "03",
     title: "Deploy",
-    desc: "We run the system live alongside you for the first week — refining, tuning, and making sure it fits how you actually work day to day.",
+    desc: "We run it live alongside you for the first week — refining, tuning, and making sure it fits how you actually work. Not how we think you should work.",
   },
   {
     number: "04",
     title: "Handoff",
-    desc: "You own it. We document everything, train you and your team, and provide 30 days of post-launch support as the system grows with your business.",
+    desc: "You own it. We document everything, train you and your team, and provide 30 days of post-launch support. No lock-in. No ongoing dependency on us.",
   },
 ];
 
 const useCases = [
   {
-    icon: Calendar,
-    text: '"Good morning" → full daily brief, priorities, and calendar context in 30 seconds.',
-  },
-  {
-    icon: FileText,
-    text: "Paste a meeting transcript → notes, action items, and team context updated automatically.",
-  },
-  {
-    icon: MessageSquare,
-    text: '"Post an update to Slack" → done, without leaving your flow.',
-  },
-  {
-    icon: Brain,
-    text: '"Why did we choose X over Y last quarter?" → full decision record surfaced instantly.',
+    icon: CheckCircle,
+    text: "New client signs up → welcome email, questionnaire, intro call, and briefing doc all generated and sent. Automatically. In 30 minutes, not 3 hours.",
   },
   {
     icon: TrendingUp,
-    text: '"What are the top blockers right now?" → grounded in actual data, not hunches.',
+    text: "A lead fills out your form → they get a call within 5 minutes, qualified, and booked in. You didn't touch anything.",
   },
   {
-    icon: CheckCircle,
-    text: '"Prep for my 1:1 with Sam" → full history, past notes, and suggested topics ready.',
+    icon: FileText,
+    text: "Paste a meeting transcript → notes, action items, and client context all updated. No one has to type it up.",
+  },
+  {
+    icon: Calendar,
+    text: '"Good morning" → full daily brief with your calendar, priorities, and what needs attention. In 30 seconds.',
+  },
+  {
+    icon: Brain,
+    text: '"Why did we decide to change suppliers last quarter?" → full decision record, not a vague memory.',
+  },
+  {
+    icon: MessageSquare,
+    text: '"Draft a proposal for the client I met yesterday" → done, using everything the system already knows about them.',
   },
 ];
 
@@ -145,23 +145,23 @@ export default function IntelligenceLayer() {
           </FadeIn>
           <FadeIn delay={0.05}>
             <h1 className="text-4xl sm:text-5xl lg:text-[4.5rem] font-semibold leading-[1.1] tracking-[-0.04em] text-balance">
-              Your business,
+              Reclaim 10–30 hours
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-accent bg-clip-text text-transparent drop-shadow-sm">
-                running on AI.
+                every single week.
               </span>
             </h1>
           </FadeIn>
           <FadeIn delay={0.1}>
             <p className="mt-6 text-lg sm:text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto text-pretty">
-              A bespoke AI operating system, built around how you actually work. Not a chatbot. Not another SaaS subscription. An AI that knows your business, remembers everything, and acts on your behalf — like having a world-class executive assistant who never sleeps.
+              We build a system around how your business actually runs — connecting your tools, capturing your knowledge, and automating the work that eats your week. Client onboarding. Lead follow-up. Meeting actions. Proposals. Running automatically, getting smarter every day. Done for you. Custom to your business.
             </p>
           </FadeIn>
           <FadeIn delay={0.15}>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="cta" size="xl" asChild>
                 <a href="https://api.leadconnectorhq.com/widget/booking/m8K2i912qEb19UyxsSGe" target="_blank" rel="noopener noreferrer">
-                  Book a setup call
+                  Book a free 30-minute audit
                   <ArrowRight className="ml-1" size={16} />
                 </a>
               </Button>
@@ -179,29 +179,26 @@ export default function IntelligenceLayer() {
           <div className="grid gap-16 lg:grid-cols-2 items-center">
             <div>
               <FadeIn>
-                <SectionLabel>THE ORIGIN</SectionLabel>
+                <SectionLabel>WHY THIS EXISTS</SectionLabel>
               </FadeIn>
               <FadeIn delay={0.05}>
                 <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                  The moment you stop managing the system.
+                  Every business owner we spoke to said the same thing.
                 </h2>
               </FadeIn>
               <FadeIn delay={0.1}>
                 <div className="mt-5 space-y-4 text-base text-muted-foreground leading-relaxed">
                   <p>
-                    We've spent years building operational infrastructure for businesses. The tools were never the bottleneck. The bottleneck was always the same thing: someone has to maintain them.
+                    "I know AI can help. I just don't have time to figure it out." You've got a CRM, a calendar, a project tool, an email inbox, and a dozen spreadsheets. None of them talk to each other. And nobody has written down how the business actually runs.
                   </p>
                   <p>
-                    Notion works until you're spending more time deciding where to put something than doing the actual work. Slack is fast until the context you need is buried months back. Every knowledge management system fails the same way — it becomes a second job.
+                    You've probably tried ChatGPT. Maybe you've used it for emails or brainstorming. But it doesn't know your clients. It doesn't know your processes. It forgets everything the moment you close the tab.
                   </p>
                   <p>
-                    So we asked a different question. What if the system maintained itself? What if capturing context was a side effect of natural conversation, not a deliberate act?
-                  </p>
-                  <p>
-                    We built the first version for ourselves. A connected AI, an empty directory, one instruction: <em>"Learn how this business works and help us run it better."</em> No templates. No folder structure to decide. The AI figured it out.
+                    The Intelligence Layer is different. We build a system <em>around</em> your business — connected to your tools, trained on how you work, capturing knowledge automatically. You don't have to maintain it. You just use it.
                   </p>
                   <p className="text-foreground font-medium">
-                    What emerged wasn't a tool. It was an operating layer — one that knows your decisions, preps your meetings, acts on your behalf, and gets smarter every single week.
+                    The result: client onboarding that runs itself, leads that get followed up in minutes, meetings that produce real action items — and a system that gets smarter every week you use it.
                   </p>
                 </div>
               </FadeIn>
@@ -222,21 +219,21 @@ export default function IntelligenceLayer() {
                   style={{ background: "radial-gradient(circle, hsl(var(--accent) / 0.1) 0%, transparent 70%)" }}
                 />
                 <p className="text-xs font-bold uppercase tracking-[0.1em] text-accent mb-6">
-                  What the system accumulates over time
+                  What changes — and when
                 </p>
                 <div className="space-y-6">
                   {[
                     {
                       period: "End of week one",
-                      desc: "Your tools are connected. Your first meetings are captured. The AI knows your priorities, your team, and how you like to work.",
+                      desc: "Your tools are connected. Client onboarding is automated. Your first meetings are being captured without you doing anything.",
                     },
                     {
                       period: "End of month one",
-                      desc: "Every decision you've made is logged with full context. Every 1:1 has a history. Action items don't fall through the cracks.",
+                      desc: "Leads are being followed up automatically. Proposals draft themselves. You've stopped switching between 11 tabs to start your day.",
                     },
                     {
                       period: "End of quarter one",
-                      desc: "The system knows your business better than any new hire could in six months. Patterns surface. Strategic context compounds. You operate at a level that simply wasn't possible before.",
+                      desc: "The system knows your business better than a new hire could in six months. 10–30 hours a week reclaimed. And it's still getting smarter.",
                     },
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">
@@ -258,7 +255,7 @@ export default function IntelligenceLayer() {
                   className="mt-4 rounded-lg px-4 py-3 border text-xs text-muted-foreground leading-relaxed italic"
                   style={{ borderColor: "hsl(var(--accent) / 0.2)", background: "hsl(var(--accent) / 0.04)" }}
                 >
-                  Unlike every other tool, the intelligence layer requires nothing from you except conversation. The value compounds automatically.
+                  Unlike DIY tools, you don't maintain this. We build it, deploy it, and hand it over. The value compounds automatically — every conversation makes it smarter.
                 </div>
               </div>
             </FadeIn>
@@ -272,21 +269,16 @@ export default function IntelligenceLayer() {
           <div className="grid gap-16 lg:grid-cols-2 items-center">
             <div>
               <FadeIn>
-                <SectionLabel>THE PROBLEM</SectionLabel>
+                <SectionLabel>SOUND FAMILIAR?</SectionLabel>
               </FadeIn>
               <FadeIn delay={0.05}>
                 <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                  Your best operators are drowning in context.
+                  The things quietly costing you the most.
                 </h2>
               </FadeIn>
               <FadeIn delay={0.1}>
                 <p className="mt-5 text-lg text-muted-foreground leading-relaxed text-pretty">
-                  Knowledge workers don't have a productivity problem — they have a context problem. The information exists. It's just scattered, undocumented, and inaccessible at the exact moment it's needed.
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.15}>
-                <p className="mt-4 text-base text-muted-foreground leading-relaxed text-pretty">
-                  Most tools make this worse — not better. Every new app is another place to check, another thing to maintain, another system that depends on a human remembering to update it. The intelligence layer takes the opposite approach: it captures context as a side effect of natural conversation. You just talk to it. It handles everything else.
+                  You don't have a "technology problem." You have processes that depend on someone remembering, someone chasing, someone manually doing the same thing for the hundredth time. Every one of these is fixable — and measurable.
                 </p>
               </FadeIn>
             </div>
@@ -318,12 +310,12 @@ export default function IntelligenceLayer() {
             </FadeIn>
             <FadeIn delay={0.05}>
               <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                Four layers. One coherent system.
+                Four layers. One system that runs your business.
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
               <p className="mt-5 text-lg text-muted-foreground leading-relaxed text-pretty">
-                The intelligence layer isn't a single tool — it's an architecture. Each layer does one job, and together they create something that feels like having a senior operator who knows your entire business and can act on your behalf.
+                It's not a chatbot. It's not another SaaS subscription. It's a connected system built around your business — capturing knowledge, connecting your tools, and running the repeatable work so you don't have to.
               </p>
             </FadeIn>
           </div>
@@ -343,12 +335,12 @@ export default function IntelligenceLayer() {
             </FadeIn>
             <FadeIn delay={0.05}>
               <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                Three foundations. Every engagement delivers all three.
+                Three things that change how your business runs.
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
               <p className="mt-5 text-lg text-muted-foreground leading-relaxed text-pretty">
-                Every Intelligence Layer engagement is different — tailored to your role, your tools, and your business. But the three foundations are always the same. They're what make the system work as a whole rather than as a set of disconnected parts.
+                Every business is different — so every build is custom. But the three foundations are always the same. They work together to replace the manual, repetitive, forgettable parts of running your business.
               </p>
             </FadeIn>
           </div>
@@ -398,12 +390,12 @@ export default function IntelligenceLayer() {
             </FadeIn>
             <FadeIn delay={0.05}>
               <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                What a day actually looks like.
+                What changes on a typical day.
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
               <p className="mt-5 text-lg text-muted-foreground leading-relaxed text-pretty">
-                You don't use the intelligence layer — you just talk to it. Like a senior operator who knows every corner of your business and can act immediately. No forms. No templates. No context switching.
+                The things you used to spend hours on — done automatically, or done in seconds. Here's what that actually looks like.
               </p>
             </FadeIn>
           </div>
@@ -432,9 +424,9 @@ export default function IntelligenceLayer() {
             >
               <div className="grid sm:grid-cols-3 gap-6 text-center">
                 {[
-                  { value: "Week 1", desc: "System is live. Day one context is captured." },
-                  { value: "Week 3", desc: "You're operating at a level that wasn't possible before." },
-                  { value: "Month 6", desc: "The system knows your business better than any new hire could." },
+                  { value: "Week 1", desc: "System is live. Onboarding automated. First meetings captured." },
+                  { value: "Month 1", desc: "10–15 hours reclaimed. Leads followed up in minutes. Proposals drafted automatically." },
+                  { value: "Month 3", desc: "System knows your business better than any new hire. 20–30 hours/week back." },
                 ].map((item, i) => (
                   <div key={i} className="flex flex-col gap-2">
                     <p className="text-lg font-semibold text-accent">{item.value}</p>
@@ -456,12 +448,12 @@ export default function IntelligenceLayer() {
             </FadeIn>
             <FadeIn delay={0.05}>
               <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                Four phases. Running in days, not months.
+                Live in days. Compounding within weeks.
               </h2>
             </FadeIn>
             <FadeIn delay={0.1}>
               <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-                We follow the same four-phase process we use across all our systems engagements — adapted for the intelligence layer. Most clients are live within the first week. By week three, the compounding effect starts to kick in.
+                Most clients are live within the first week. You don't need to be technical. You don't need to learn new tools. We handle the build — you tell us how your business works.
               </p>
             </FadeIn>
           </div>
@@ -495,19 +487,19 @@ export default function IntelligenceLayer() {
               </FadeIn>
               <FadeIn delay={0.05}>
                 <h2 className="mt-4 text-3xl sm:text-4xl font-semibold leading-tight tracking-[-0.02em]">
-                  Built for operators who can't afford to lose context.
+                  You know AI can help. You just don't have time to figure it out.
                 </h2>
               </FadeIn>
               <FadeIn delay={0.1}>
                 <p className="mt-5 text-lg text-muted-foreground leading-relaxed text-pretty">
-                  If you're running a team, managing clients, and shipping work simultaneously — this gives you the operational leverage that used to require a full executive assistant. And it compounds. Every conversation adds context. Every decision creates a reference point. Every week, the system gets more useful.
+                  That's exactly who this is for. Business owners who are too busy running the business to spend weeks learning AI tools. We handle the technology. You tell us how your business works. The system does the rest.
                 </p>
               </FadeIn>
               <FadeIn delay={0.15}>
                 <div className="mt-8">
                   <Button variant="cta" size="lg" asChild>
                     <a href="https://api.leadconnectorhq.com/widget/booking/m8K2i912qEb19UyxsSGe" target="_blank" rel="noopener noreferrer">
-                      Book a setup call
+                      Book a free 30-minute audit
                       <ArrowRight className="ml-1" size={16} />
                     </a>
                   </Button>
@@ -518,20 +510,20 @@ export default function IntelligenceLayer() {
             <div className="space-y-4">
               {[
                 {
-                  role: "Founders & CEOs",
-                  desc: "Managing growth, team, investors, and product simultaneously. The intelligence layer keeps you centred and informed without adding to your cognitive load.",
+                  role: "SME Owners & Directors",
+                  desc: "Running the business, managing the team, handling clients — all at once. The system takes the repeatable work off your plate so you focus on what actually grows the business.",
                 },
                 {
-                  role: "Operations Leaders",
-                  desc: "You've inherited a fragmented stack and need to get on top of it fast. The AI builds your operational memory from day one.",
+                  role: "Service Business Operators",
+                  desc: "Agencies, consultancies, trades, professional services. Client onboarding, proposals, and follow-up running automatically instead of manually.",
                 },
                 {
-                  role: "Technical Leaders",
-                  desc: "Shipping code while running a team. The system handles the context management so you stay in flow.",
+                  role: "Practice & Office Managers",
+                  desc: "You keep the business running day to day. The system captures knowledge, tracks actions, and stops things falling through the cracks.",
                 },
                 {
-                  role: "Consultants & Advisors",
-                  desc: "Managing multiple client relationships and workstreams. Never lose thread across engagements again.",
+                  role: "Scaling Teams (5–50 people)",
+                  desc: "Growing fast but can't afford a full ops hire yet. The Intelligence Layer gives you operational leverage without the headcount.",
                 },
               ].map((item, i) => (
                 <FadeIn key={i} delay={0.05 * i}>
@@ -571,23 +563,23 @@ export default function IntelligenceLayer() {
           <div className="mx-auto max-w-2xl text-center">
             <FadeIn>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight tracking-[-0.03em] text-balance">
-                Ready to add the
+                Find out what's costing you
                 <br />
                 <span className="bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
-                  intelligence layer?
+                  the most time this week.
                 </span>
               </h2>
             </FadeIn>
             <FadeIn delay={0.05}>
               <p className="mt-5 text-lg text-muted-foreground leading-relaxed text-pretty">
-                Book a free 30-minute setup call. We'll understand how you work, map what needs to be connected, and give you a clear picture of what your intelligence layer looks like — and what it will take to get there. No pitch, no pressure.
+                Free 30-minute audit. We'll map your biggest time sinks, identify the 3 things that can be automated immediately, and give you a clear roadmap — even if you go no further. No pitch. No obligation.
               </p>
             </FadeIn>
             <FadeIn delay={0.1}>
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="cta" size="xl" asChild>
                   <a href="https://api.leadconnectorhq.com/widget/booking/m8K2i912qEb19UyxsSGe" target="_blank" rel="noopener noreferrer">
-                    Book a free setup call
+                    Book your free audit
                     <ArrowRight className="ml-1" size={16} />
                   </a>
                 </Button>
