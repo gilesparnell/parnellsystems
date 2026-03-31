@@ -3,10 +3,10 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Demos", href: "#demos" },
+  { label: "Demos", href: "/#demos" },
   { label: "Pricing", href: "/pricing" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Contact", href: "#contact" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const CTA_URL =
