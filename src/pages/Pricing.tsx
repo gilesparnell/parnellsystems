@@ -15,13 +15,20 @@ interface PricingTier {
   description: string;
   features: string[];
   popular?: boolean;
+  stripeUrl: string;
 }
+
+// TODO: Replace with real Stripe Payment Link URLs once migrated
+const STRIPE_STARTER = "https://buy.stripe.com/PLACEHOLDER_STARTER";
+const STRIPE_BUSINESS = "https://buy.stripe.com/PLACEHOLDER_BUSINESS";
+const STRIPE_PROFESSIONAL = "https://buy.stripe.com/PLACEHOLDER_PROFESSIONAL";
 
 const tiers: PricingTier[] = [
   {
     name: "Starter",
     price: "$199/mo",
     description: "Perfect for solo operators and small teams",
+    stripeUrl: STRIPE_STARTER,
     features: [
       "1 phone number",
       "AI voice agent",
@@ -37,6 +44,7 @@ const tiers: PricingTier[] = [
     price: "$349/mo",
     description: "For growing businesses that never want to miss a call",
     popular: true,
+    stripeUrl: STRIPE_BUSINESS,
     features: [
       "Everything in Starter, plus:",
       "2 phone numbers",
@@ -51,6 +59,7 @@ const tiers: PricingTier[] = [
     name: "Professional",
     price: "$549/mo",
     description: "For multi-location businesses and teams",
+    stripeUrl: STRIPE_PROFESSIONAL,
     features: [
       "Everything in Business, plus:",
       "5 phone numbers",
@@ -186,7 +195,7 @@ export default function Pricing() {
                     asChild
                   >
                     <a
-                      href={BOOKING_URL}
+                      href={tier.stripeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
