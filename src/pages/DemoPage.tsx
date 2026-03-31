@@ -1,11 +1,12 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { NICHES } from "@/config/niches";
 import { VoiceNavbar } from "@/components/voice/VoiceNavbar";
+import { VoiceOrb } from "@/components/voice/VoiceOrb";
 import { FadeIn } from "@/components/landing/FadeIn";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Phone, CalendarDays, Play, Pause } from "lucide-react";
+import { ArrowLeft, Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 
@@ -35,34 +36,6 @@ export default function DemoPage() {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  /* ── Inject GHL chat widget ──────────────────────────────────── */
-  useEffect(() => {
-    if (!nicheData?.widgetId) return;
-
-    const script = document.createElement("script");
-    script.src = "https://widgets.leadconnectorhq.com/loader.js";
-    script.setAttribute(
-      "data-resources-url",
-      "https://widgets.leadconnectorhq.com/chat-widget/loader.js"
-    );
-    script.setAttribute("data-widget-id", nicheData.widgetId);
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      // Clean up the script on unmount
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      // Remove the custom element GHL injects into body
-      document
-        .querySelectorAll(
-          `chat-widget, iframe[src*="leadconnectorhq"], div[id*="chat-widget"]`
-        )
-        .forEach((el) => el.remove());
-    };
-  }, [nicheData?.widgetId]);
 
   /* ── Audio controls ──────────────────────────────────────────── */
   const toggleAudio = () => {
@@ -133,110 +106,99 @@ export default function DemoPage() {
         </div>
       </section>
 
-      {/* ── Voice Demo Widget ──────────────────────────────────────── */}
+      {/* ── Voice Orb Demo ──────────────────────────────────────────── */}
       <section className="pb-16">
         <div className="mx-auto max-w-4xl px-6">
           <FadeIn delay={0.2}>
-            <div
-              className="rounded-xl border border-border bg-card p-6 lg:p-8"
-              style={{ boxShadow: "var(--shadow-card)" }}
-            >
-              <p
-                className={`text-xs font-bold uppercase tracking-[0.1em] ${nicheData.accent} mb-4`}
-              >
-                Chat with the AI
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Click the chat bubble in the bottom-right corner to interact
-                with the AI receptionist. Ask it anything a real customer
-                would — pricing, availability, booking a time.
-              </p>
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+              <div className="w-full max-w-[320px]">
+                <VoiceOrb
+                  variant="compact"
+                  widgetId={nicheData.widgetId}
+                  titleLabel={nicheData.orbLabel}
+                />
+              </div>
+
+              {nicheData.phoneNumber && (
+                <a
+                  href={`tel:${nicheData.phoneNumber.replace(/\s/g, "")}`}
+                  className="group inline-flex w-full max-w-[320px] items-center justify-between gap-4 rounded-full border border-border bg-card/90 px-5 py-4 text-left shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_0_36px_hsl(var(--accent)/0.12)] transition-all duration-300 hover:border-accent/60 hover:bg-card"
+                >
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-mono uppercase tracking-[0.28em] text-accent/80">
+                      Live Mobile Demo
+                    </p>
+                    <p className="mt-1 text-sm font-extrabold uppercase tracking-[0.16em] text-foreground">
+                      Call {nicheData.phoneNumber}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Test from your phone
+                    </p>
+                  </div>
+                  <ArrowLeft
+                    size={16}
+                    className="shrink-0 rotate-180 text-accent transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </a>
+              )}
             </div>
           </FadeIn>
         </div>
       </section>
 
-      {/* ── Phone + Audio cards ─────────────────────────────────────── */}
-      <section className="pb-16">
-        <div className="mx-auto max-w-4xl px-6">
-          <div className="grid gap-6 sm:grid-cols-2">
-            {/* Call live demo */}
-            {nicheData.phoneNumber && (
-              <FadeIn delay={0.05}>
-                <div
-                  className="rounded-xl border border-border bg-card p-6 flex flex-col gap-4"
-                  style={{ boxShadow: "var(--shadow-card)" }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br ${nicheData.color}`}
-                    >
-                      <Phone size={16} className={nicheData.accent} />
-                    </div>
-                    <h3 className="text-sm font-semibold text-foreground">
-                      Call live demo
-                    </h3>
+      {/* ── Audio player ─────────────────────────────────────────────── */}
+      {nicheData.audioFile && (
+        <section className="pb-16">
+          <div className="mx-auto max-w-4xl px-6">
+            <FadeIn delay={0.25}>
+              <div
+                className={`relative rounded-xl border border-border bg-gradient-to-br ${nicheData.color} p-6 lg:p-8`}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className={`flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 ${nicheData.accent}`}
+                  >
+                    <NicheIcon size={20} />
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Call this number and speak directly to the AI voice agent.
+                  <h3 className="text-lg font-bold text-foreground">
+                    {nicheData.audioTitle}
+                  </h3>
+                </div>
+                {nicheData.audioDesc && (
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                    {nicheData.audioDesc}
                   </p>
-                  <a
-                    href={`tel:${nicheData.phoneNumber.replace(/\s/g, "")}`}
-                    className={`text-lg font-bold ${nicheData.accent} hover:opacity-80 transition-opacity`}
-                  >
-                    {nicheData.phoneNumber}
-                  </a>
-                </div>
-              </FadeIn>
-            )}
+                )}
 
-            {/* Audio player */}
-            {nicheData.audioFile && (
-              <FadeIn delay={0.1}>
-                <div
-                  className="rounded-xl border border-border bg-card p-6 flex flex-col gap-4"
-                  style={{ boxShadow: "var(--shadow-card)" }}
+                <audio
+                  ref={audioRef}
+                  src={`/audio/${nicheData.audioFile}`}
+                  onEnded={() => setIsPlaying(false)}
+                />
+
+                <motion.button
+                  onClick={toggleAudio}
+                  whileTap={{ scale: 0.95 }}
+                  className={`inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-bold uppercase tracking-wide transition-all duration-200 border ${
+                    isPlaying
+                      ? "border-accent/40 bg-accent/10 text-accent"
+                      : "border-border bg-background/80 text-foreground hover:bg-accent/5"
+                  }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br ${nicheData.color}`}
-                    >
-                      <CalendarDays size={16} className={nicheData.accent} />
-                    </div>
-                    <h3 className="text-sm font-semibold text-foreground">
-                      Listen to a sample call
-                    </h3>
-                  </div>
-                  {nicheData.audioDesc && (
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {nicheData.audioDesc}
-                    </p>
-                  )}
+                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                  {isPlaying
+                    ? "Pause"
+                    : `Listen to ${nicheData.audioTitle} Demo`}
+                </motion.button>
 
-                  <audio
-                    ref={audioRef}
-                    src={`/audio/${nicheData.audioFile}`}
-                    onEnded={() => setIsPlaying(false)}
-                  />
-
-                  <motion.button
-                    onClick={toggleAudio}
-                    whileTap={{ scale: 0.95 }}
-                    className={`inline-flex items-center gap-2 self-start rounded-lg px-5 py-2.5 text-sm font-medium transition-colors duration-200 border ${
-                      isPlaying
-                        ? "border-accent/40 bg-accent/10 text-accent"
-                        : "border-border bg-background text-foreground hover:bg-accent/5"
-                    }`}
-                  >
-                    {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                    {isPlaying ? "Pause" : "Play demo call"}
-                  </motion.button>
-                </div>
-              </FadeIn>
-            )}
+                {isPlaying && (
+                  <div className="absolute -inset-px rounded-xl border border-accent/30 animate-pulse pointer-events-none" />
+                )}
+              </div>
+            </FadeIn>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── Features Grid ──────────────────────────────────────────── */}
       <section className="pb-16">
