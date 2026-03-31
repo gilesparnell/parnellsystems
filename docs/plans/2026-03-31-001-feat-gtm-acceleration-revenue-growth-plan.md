@@ -438,29 +438,44 @@ Create a pipeline in GHL with these stages:
 
 Your current 2 customers are paying $399/mo. The AU market research supports premium positioning — you're replacing a $3,000-5,000/mo human receptionist with AI. The value gap is massive.
 
-**Recommended pricing tiers:**
+**Confirmed pricing tiers:**
 
 | Tier | Monthly | Positioning | Target |
 |------|---------|------------|--------|
-| **Starter** | $299/mo | Solo operators, 1 number, up to 100 calls | Price-sensitive SMBs wanting to test |
-| **Business** (Most Popular) | $499/mo | Growing businesses, 2 numbers, unlimited calls, full features | Core target — tradies, salons, gyms |
+| **Starter** | $399/mo | Solo operators, 1 number, up to 100 calls | Price-sensitive SMBs wanting to test |
+| **Business** (Most Popular) | $599/mo | Growing businesses, 2 numbers, unlimited calls, full features | Core target — tradies, salons, gyms |
 | **Professional** | $799/mo | Multi-location, 5 numbers, custom voice, dedicated AM | Larger operations, clinics, automotive chains |
 
-**Setup fee:** $499 one-time (waived on annual commitment). Covers custom AI training, knowledge base setup, phone provisioning, testing. This fee also qualifies leads — anyone willing to pay $499 upfront is serious. $499 sits at the upper end of the AU SMB range ($100-$500) and stays under the $500 threshold where many SMB owners have purchasing authority without additional approval.
+**Setup fee:** $2,000 one-time. Covers GHL sub-account setup, voice agent build, phone number provisioning, workflow configuration, testing & QA, onboarding call. This fee also qualifies leads — anyone willing to pay $2,000 upfront is serious.
 
-**Annual discount:** Pay 10 months upfront, get 12 months of service. In Stripe, this is a single annual Price object (e.g., Business annual = $4,990/year), NOT a coupon or subscription schedule with free months.
+**Annual discount:** 1 month free (11× monthly). In Stripe, this is a single annual Price object per tier, NOT coupons or subscription schedules.
 
-| Tier | Monthly | Annual (10x) | Annual equiv/mo |
-|------|---------|-------------|-----------------|
-| Starter | $299/mo | $2,990/yr | $249/mo |
-| Business | $499/mo | $4,990/yr | $416/mo |
-| Professional | $799/mo | $7,990/yr | $666/mo |
+**Annual setup fee discounts** (push customers toward higher tiers + annual commitment):
+- Starter Annual: full $2,000 setup fee applies
+- Business Annual: 50% off setup ($1,000)
+- Professional Annual: setup fee fully waived
 
-**Setup fee anchoring strategy:** Show the $499 setup fee prominently on monthly view. On annual toggle, show it with strikethrough + "Waived". Two value signals firing simultaneously (lower monthly + waived setup) creates a stronger nudge toward annual. First-year savings for Business annual vs monthly: $499 setup + ($499 × 12) = $6,487 vs $4,990 = **$1,497 saved (23%)**.
+| Tier | Monthly | Annual (11×) | Annual equiv/mo | Setup (monthly) | Setup (annual) |
+|------|---------|-------------|-----------------|-----------------|----------------|
+| Starter | $399/mo | $4,389/yr | $366/mo | $2,000 | $2,000 |
+| Business | $599/mo | $6,589/yr | $549/mo | $2,000 | $1,000 |
+| Professional | $799/mo | $8,789/yr | $732/mo | $2,000 | $0 |
+
+**Year 1 totals (subscription + setup):**
+
+| Tier | Monthly billing Y1 | Annual billing Y1 | Customer saves |
+|------|--------------------|--------------------|----------------|
+| Starter | $6,788 | $6,389 | $399 (6%) |
+| Business | $9,188 | $7,589 | $1,599 (17%) |
+| Professional | $11,588 | $8,789 | $2,799 (24%) |
+
+**Setup fee anchoring strategy:** Show the $2,000 setup fee prominently on monthly view. On annual toggle, show tiered discounts: "50% off setup" for Business, "Setup waived" for Professional. The savings headline for each tier should combine both subscription and setup savings.
+
+**90-day pro-rata money-back guarantee:** All new customers get a 90-day pro-rata refund on their subscription if they cancel. The setup fee ($2,000) is non-refundable — it covers real delivery work. This reduces buyer friction for a high-ticket SaaS without exposing setup costs.
 
 **ROI justification by tier:**
-- Starter ($299/mo): If a tradie saves just 1 missed job/month at $350, that's instant ROI
-- Business ($499/mo): 2 saved jobs/month = $700+ returned on $499 spend = 1.4x ROI minimum
+- Starter ($399/mo): If a tradie saves just 1 missed job/month at $350, that's instant ROI
+- Business ($599/mo): 2 saved jobs/month = $700+ returned on $599 spend = 1.2x ROI minimum
 - Professional ($799/mo): Multi-location businesses losing $10k+/mo to missed calls across sites
 
 ### Existing Customer Migration (2 customers at $399/mo)
@@ -472,25 +487,23 @@ Permanent grandfathering creates operational complexity for 2 customers and leav
 **Plan:**
 1. **Phone call to each customer** (not email). Use this framework:
    - Lead with what you've built for them since they started
-   - Explain the new tier structure — their service maps to Business ($499/mo)
+   - Explain the new tier structure — their service maps to Business ($599/mo)
    - Acknowledge the change: "You've been with us from early days"
-   - Present loyalty option: stay at $399 for 90 days then move to $499, OR lock in annual at ~$416/mo (barely more than current)
+   - Present loyalty option: stay at $399 for 90 days then move to $599, OR lock in annual at ~$549/mo
 2. **Follow up in writing** with a brief email confirming the conversation and timeline
-3. **Annual loyalty offer math:** $4,990/yr = $416/mo effective. That's only $17/mo more than their current $399. Setup fee waived. Frame as: "Your loyalty rate is basically what you're paying now, locked for a full year."
+3. **Annual loyalty offer math:** $6,589/yr = $549/mo effective. That's $150/mo more than current $399, but they get unlimited calls, after-hours handling, and priority support. Frame as: "You're getting the full Business package — unlimited calls, custom greeting, call transcripts — at the loyalty annual rate."
 
 **Do not:** Send a templated email. With 2 customers, a personal call from the founder is the highest-quality communication possible.
 
 **Tasks:**
-- [ ] Giles: Migrate/create Stripe products under Parnell Systems account
-- [ ] Giles: Create 3 Products in Stripe, each with 2 Prices (monthly + annual):
-  - Starter: $299/mo + $2,990/yr
-  - Business: $499/mo + $4,990/yr
-  - Professional: $799/mo + $7,990/yr
-- [ ] Giles: Create Setup Fee product: $499 one-time
-- [ ] Giles: Generate Payment Links for each (6 links total: 3 monthly + 3 annual)
+- [x] Giles: Register for GST (completed 2026-04-01)
+- [x] Giles: Create Stripe products and prices via CLI (completed 2026-04-01, test mode)
+- [x] Giles: Generate Payment Links (6 links: 3 monthly + 3 annual, completed 2026-04-01, test mode)
+- [ ] Giles: Test payment links with test card (4242 4242 4242 4242)
+- [ ] Giles: Replicate products + payment links in Stripe live mode when ready
 - [ ] Giles: Call both existing customers using the framework above
-- [ ] Claude: Update `Pricing.tsx` — new tiers, monthly/annual toggle, setup fee with strikethrough on annual, savings callout
-- [ ] Claude: Replace placeholder URLs with real Stripe links
+- [ ] Claude: Update `Pricing.tsx` — new tiers ($399/$599/$799), monthly/annual toggle, $2,000 setup fee with tiered discounts on annual, savings callout, 90-day guarantee badge
+- [ ] Claude: Replace placeholder URLs with real Stripe Payment Link URLs
 - [ ] Giles: Configure Stripe webhook → GHL to update contact status on successful payment
 
 ### W5.2 — Client Onboarding Form
