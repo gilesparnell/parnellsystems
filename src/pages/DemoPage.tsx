@@ -35,13 +35,11 @@ export default function DemoPage() {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const widgetContainerRef = useRef<HTMLDivElement | null>(null);
 
   /* ── Inject GHL chat widget ──────────────────────────────────── */
   useEffect(() => {
-    if (!nicheData?.widgetId || !widgetContainerRef.current) return;
+    if (!nicheData?.widgetId) return;
 
-    const container = widgetContainerRef.current;
     const script = document.createElement("script");
     script.src = "https://widgets.leadconnectorhq.com/loader.js";
     script.setAttribute(
@@ -50,17 +48,17 @@ export default function DemoPage() {
     );
     script.setAttribute("data-widget-id", nicheData.widgetId);
     script.async = true;
-    container.appendChild(script);
+    document.body.appendChild(script);
 
     return () => {
       // Clean up the script on unmount
-      if (container.contains(script)) {
-        container.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
       }
-      // Remove any widget iframes that GHL injects into body
+      // Remove the custom element GHL injects into body
       document
         .querySelectorAll(
-          `iframe[src*="leadconnectorhq"], div[id*="chat-widget"]`
+          `chat-widget, iframe[src*="leadconnectorhq"], div[id*="chat-widget"]`
         )
         .forEach((el) => el.remove());
     };
@@ -148,19 +146,11 @@ export default function DemoPage() {
               >
                 Chat with the AI
               </p>
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Use the chat widget below to interact with the AI receptionist.
-                Ask it anything a real customer would — pricing, availability,
-                booking a time.
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Click the chat bubble in the bottom-right corner to interact
+                with the AI receptionist. Ask it anything a real customer
+                would — pricing, availability, booking a time.
               </p>
-              <div
-                ref={widgetContainerRef}
-                className="min-h-[80px] flex items-center justify-center"
-              >
-                <p className="text-xs text-muted-foreground/50 animate-pulse">
-                  Loading chat widget...
-                </p>
-              </div>
             </div>
           </FadeIn>
         </div>
@@ -225,7 +215,7 @@ export default function DemoPage() {
 
                   <audio
                     ref={audioRef}
-                    src={`/${nicheData.audioFile}`}
+                    src={`/audio/${nicheData.audioFile}`}
                     onEnded={() => setIsPlaying(false)}
                   />
 
