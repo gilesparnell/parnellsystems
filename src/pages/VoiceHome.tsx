@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useState } from "react";
 import {
   Phone,
   Clock,
@@ -17,6 +18,8 @@ import {
   ArrowRight,
   Mail,
   Quote,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import { VoiceNavbar } from "@/components/voice/VoiceNavbar";
 
@@ -93,7 +96,12 @@ const nicheDescriptions: Record<string, string> = {
 /*  VoiceHome Page                                                            */
 /* ========================================================================== */
 
+const WEBHOOK_URL =
+  "https://services.leadconnectorhq.com/hooks/T8MbqCetMfWQpg5W9oWF/webhook-trigger/5700ca6f-2fa7-4674-8b39-cd01a60c909a";
+
 const VoiceHome = () => {
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
   const {
     register,
     handleSubmit,
@@ -104,18 +112,19 @@ const VoiceHome = () => {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    // Placeholder — will wire up GHL webhook later
-    console.log("Contact form submitted:", data);
+    setSubmitStatus("idle");
     try {
-      await fetch("https://hooks.example.com/placeholder", {
+      const res = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+      if (!res.ok) throw new Error("Webhook failed");
+      setSubmitStatus("success");
+      reset();
     } catch {
-      // silent — placeholder endpoint
+      setSubmitStatus("error");
     }
-    reset();
   };
 
   return (
@@ -454,6 +463,19 @@ const VoiceHome = () => {
               >
                 {isSubmitting ? "Sending..." : "Send enquiry"}
               </Button>
+
+              {submitStatus === "success" && (
+                <div className="flex items-center gap-2 text-sm text-green-400 mt-3">
+                  <CheckCircle2 size={16} />
+                  Thanks! We'll be in touch shortly.
+                </div>
+              )}
+              {submitStatus === "error" && (
+                <div className="flex items-center gap-2 text-sm text-red-400 mt-3">
+                  <AlertCircle size={16} />
+                  Something went wrong. Please try again or call us directly.
+                </div>
+              )}
             </form>
           </FadeIn>
 
