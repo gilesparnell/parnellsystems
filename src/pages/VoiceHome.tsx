@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Phone,
   Clock,
@@ -17,11 +17,12 @@ import {
   CalendarCheck,
   ArrowRight,
   Mail,
-  Quote,
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
 import { VoiceNavbar } from "@/components/voice/VoiceNavbar";
+import { captureUTMParams, appendUTMParams } from "@/lib/utm";
+import { useSEO } from "@/hooks/use-seo";
 
 const CTA_URL =
   "https://api.leadconnectorhq.com/widget/booking/m8K2i912qEb19UyxsSGe";
@@ -59,26 +60,12 @@ const steps = [
   },
 ];
 
-/* ---------- Social Proof Data ---------- */
-const testimonials = [
-  {
-    quote:
-      "We were missing 40% of our calls. Now every single one gets answered.",
-    name: "Rob",
-    business: "Landscaping",
-  },
-  {
-    quote:
-      "Setup took 30 minutes. It was answering calls the same day.",
-    name: "Sarah",
-    business: "Dental Practice",
-  },
-  {
-    quote:
-      "My customers can't tell it's AI. They think I hired a receptionist.",
-    name: "Marcus",
-    business: "Auto Repair",
-  },
+/* ---------- Social Proof Stats ---------- */
+const proofStats = [
+  { value: "62%", label: "of callers hang up rather than leave a voicemail" },
+  { value: "24/7", label: "coverage — no missed calls, even after hours" },
+  { value: "48hrs", label: "average time from signup to live" },
+  { value: "$0", label: "per-minute charges — flat-rate, always" },
 ];
 
 /* ---------- Niche descriptions for cards ---------- */
@@ -101,6 +88,17 @@ const WEBHOOK_URL =
 
 const VoiceHome = () => {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  useSEO({
+    title: "Parnell Systems — AI Voice Agents for Australian Business",
+    description:
+      "Never miss a customer call again. AI voice agents that answer your phone 24/7, book appointments, and send SMS confirmations.",
+  });
+
+  // Capture UTM params from landing URL
+  useEffect(() => {
+    captureUTMParams(new URLSearchParams(window.location.search));
+  }, []);
 
   const {
     register,
@@ -130,6 +128,11 @@ const VoiceHome = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <VoiceNavbar />
+
+      {/* ── Early Access Banner ─────────────────────────────────────────── */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-accent/90 backdrop-blur-sm text-accent-foreground text-center py-2 text-sm font-medium">
+        Early access — limited spots available
+      </div>
 
       {/* ------------------------------------------------------------------ */}
       {/*  HERO                                                               */}
@@ -176,7 +179,7 @@ const VoiceHome = () => {
                 <DollarSign size={16} className="text-accent" />
                 <span>
                   From{" "}
-                  <span className="text-foreground font-semibold">$199/mo</span>
+                  <span className="text-foreground font-semibold">$399/mo</span>
                 </span>
               </div>
             </div>
@@ -280,32 +283,28 @@ const VoiceHome = () => {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/*  SOCIAL PROOF                                                       */}
+      {/*  SOCIAL PROOF (stats-based)                                         */}
       {/* ------------------------------------------------------------------ */}
       <section className="py-20 md:py-28 border-t border-border/40">
         <div className="mx-auto max-w-6xl px-6">
           <FadeIn>
             <p className="text-sm font-semibold text-accent uppercase tracking-widest text-center mb-3">
-              Testimonials
+              Why it works
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-center">
-              Trusted by Australian businesses
+              Built for Australian SMBs
             </h2>
           </FadeIn>
 
-          <div className="mt-14 grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <FadeIn key={t.name} delay={i * 0.1}>
-                <div className="bg-card border border-border rounded-xl p-7 flex flex-col">
-                  <Quote size={24} className="text-accent/30 mb-4" />
-                  <p className="text-foreground leading-relaxed flex-1">
-                    "{t.quote}"
+          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {proofStats.map((stat, i) => (
+              <FadeIn key={stat.value} delay={i * 0.1}>
+                <div className="bg-card border border-border rounded-xl p-7 text-center">
+                  <p className="text-3xl font-bold text-accent mb-2">
+                    {stat.value}
                   </p>
-                  <p className="mt-5 text-sm text-muted-foreground">
-                    <span className="text-foreground font-medium">
-                      {t.name}
-                    </span>{" "}
-                    — {t.business}
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {stat.label}
                   </p>
                 </div>
               </FadeIn>
@@ -337,7 +336,7 @@ const VoiceHome = () => {
               <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button variant="cta" size="lg" asChild>
                   <a
-                    href={CTA_URL}
+                    href={appendUTMParams(CTA_URL)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

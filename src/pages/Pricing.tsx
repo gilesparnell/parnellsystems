@@ -1,8 +1,10 @@
 import { VoiceNavbar } from "@/components/voice/VoiceNavbar";
 import { FadeIn } from "@/components/landing/FadeIn";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, ShieldCheck } from "lucide-react";
 import { useState } from "react";
+import { appendUTMParams } from "@/lib/utm";
+import { useSEO } from "@/hooks/use-seo";
 
 /* ─── Data ──────────────────────────────────────────────────────── */
 
@@ -11,24 +13,30 @@ const BOOKING_URL =
 
 interface PricingTier {
   name: string;
-  price: string;
+  monthlyPrice: number;
+  annualPrice: number;
   description: string;
   features: string[];
   popular?: boolean;
-  stripeUrl: string;
+  stripeMonthly: string;
+  stripeAnnual: string;
+  setupMonthly: number;
+  setupAnnual: number;
+  setupLabel?: string;
 }
-
-// TODO: Replace with real Stripe Payment Link URLs once migrated
-const STRIPE_STARTER = "https://buy.stripe.com/PLACEHOLDER_STARTER";
-const STRIPE_BUSINESS = "https://buy.stripe.com/PLACEHOLDER_BUSINESS";
-const STRIPE_PROFESSIONAL = "https://buy.stripe.com/PLACEHOLDER_PROFESSIONAL";
 
 const tiers: PricingTier[] = [
   {
     name: "Starter",
-    price: "$199/mo",
+    monthlyPrice: 399,
+    annualPrice: 4389,
     description: "Perfect for solo operators and small teams",
-    stripeUrl: STRIPE_STARTER,
+    stripeMonthly:
+      "https://buy.stripe.com/test_4gM7sE8Tl2SXdTrewA3gk00",
+    stripeAnnual:
+      "https://buy.stripe.com/test_14AcMYb1t9hldTragk3gk06",
+    setupMonthly: 2000,
+    setupAnnual: 2000,
     features: [
       "1 phone number",
       "AI voice agent",
@@ -41,10 +49,17 @@ const tiers: PricingTier[] = [
   },
   {
     name: "Business",
-    price: "$349/mo",
+    monthlyPrice: 599,
+    annualPrice: 6589,
     description: "For growing businesses that never want to miss a call",
     popular: true,
-    stripeUrl: STRIPE_BUSINESS,
+    stripeMonthly:
+      "https://buy.stripe.com/test_7sY00cedF3X13eNagk3gk02",
+    stripeAnnual:
+      "https://buy.stripe.com/test_5kQ8wId9B9hl3eN1JO3gk07",
+    setupMonthly: 2000,
+    setupAnnual: 1000,
+    setupLabel: "50% off setup",
     features: [
       "Everything in Starter, plus:",
       "2 phone numbers",
@@ -57,9 +72,16 @@ const tiers: PricingTier[] = [
   },
   {
     name: "Professional",
-    price: "$549/mo",
+    monthlyPrice: 799,
+    annualPrice: 8789,
     description: "For multi-location businesses and teams",
-    stripeUrl: STRIPE_PROFESSIONAL,
+    stripeMonthly:
+      "https://buy.stripe.com/test_5kQ9AM2uX1OTcPn1JO3gk04",
+    stripeAnnual:
+      "https://buy.stripe.com/test_eVq4gsglN515eXv88c3gk08",
+    setupMonthly: 2000,
+    setupAnnual: 0,
+    setupLabel: "Setup waived",
     features: [
       "Everything in Business, plus:",
       "5 phone numbers",
@@ -92,12 +114,27 @@ const faqs = [
     q: "Can I keep my existing phone number?",
     a: "Yes. We can port your existing number or set up call forwarding.",
   },
+  {
+    q: "What's included in the setup fee?",
+    a: "Full onboarding — we configure your AI agent, set up your phone number, customise greetings, and integrate with your booking system. Annual plans get discounted or waived setup.",
+  },
+  {
+    q: "What's your refund policy?",
+    a: "90-day pro-rata money-back guarantee on your subscription. If you're not happy within the first 90 days, we'll refund the unused portion. Setup fee is non-refundable.",
+  },
 ];
 
 /* ─── Page ──────────────────────────────────────────────────────── */
 
 export default function Pricing() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [annual, setAnnual] = useState(false);
+
+  useSEO({
+    title: "Pricing — Parnell Systems",
+    description:
+      "Simple, transparent pricing for AI voice agents. From $399/mo. No per-minute charges.",
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,6 +166,35 @@ export default function Pricing() {
               works.
             </p>
           </FadeIn>
+
+          {/* ── Billing Toggle ──────────────────────────────────────── */}
+          <FadeIn delay={0.15}>
+            <div className="mt-8 inline-flex items-center gap-3 bg-card border border-border rounded-full px-1.5 py-1.5">
+              <button
+                onClick={() => setAnnual(false)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  !annual
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setAnnual(true)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  annual
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Annual
+                <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wider opacity-80">
+                  1 month free
+                </span>
+              </button>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -136,76 +202,134 @@ export default function Pricing() {
       <section className="pb-24 lg:pb-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid gap-6 lg:grid-cols-3">
-            {tiers.map((tier, i) => (
-              <FadeIn key={tier.name} delay={0.08 * i} className="h-full">
-                <div
-                  className={`relative flex flex-col rounded-xl px-7 py-8 h-full transition-all duration-300 ${
-                    tier.popular
-                      ? "border-2 border-accent/60 bg-accent/[0.03] shadow-[0_0_60px_hsl(var(--accent)/0.08)] lg:-translate-y-2"
-                      : "border border-border bg-card"
-                  }`}
-                  style={{ boxShadow: tier.popular ? undefined : "var(--shadow-card)" }}
-                >
-                  {/* Popular badge */}
-                  {tier.popular && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                      <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-accent-foreground bg-accent px-4 py-1 rounded-full">
-                        Most popular
-                      </span>
-                    </div>
-                  )}
+            {tiers.map((tier, i) => {
+              const price = annual ? tier.annualPrice : tier.monthlyPrice;
+              const setup = annual ? tier.setupAnnual : tier.setupMonthly;
+              const stripeUrl = annual ? tier.stripeAnnual : tier.stripeMonthly;
 
-                  {/* Name + Price */}
-                  <div className="mb-6">
-                    <h3 className="text-base font-semibold text-foreground">
-                      {tier.name}
-                    </h3>
-                    <p className="mt-3">
-                      <span className="text-4xl font-bold tracking-tight text-foreground">
-                        {tier.price.split("/")[0]}
-                      </span>
-                      <span className="text-sm text-muted-foreground">/mo</span>
-                    </p>
-                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                      {tier.description}
-                    </p>
-                  </div>
-
-                  {/* Features */}
-                  <ul className="flex-1 space-y-3 mb-8">
-                    {tier.features.map((feature, j) => (
-                      <li
-                        key={j}
-                        className="flex items-start gap-2.5 text-sm text-muted-foreground"
-                      >
-                        <Check
-                          size={15}
-                          className="text-accent shrink-0 mt-0.5"
-                        />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <Button
-                    variant={tier.popular ? "cta" : "outline"}
-                    size="lg"
-                    className="w-full"
-                    asChild
+              return (
+                <FadeIn key={tier.name} delay={0.08 * i} className="h-full">
+                  <div
+                    className={`relative flex flex-col rounded-xl px-7 py-8 h-full transition-all duration-300 ${
+                      tier.popular
+                        ? "border-2 border-accent/60 bg-accent/[0.03] shadow-[0_0_60px_hsl(var(--accent)/0.08)] lg:-translate-y-2"
+                        : "border border-border bg-card"
+                    }`}
+                    style={{
+                      boxShadow: tier.popular
+                        ? undefined
+                        : "var(--shadow-card)",
+                    }}
                   >
-                    <a
-                      href={tier.stripeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    {/* Popular badge */}
+                    {tier.popular && (
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+                        <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-accent-foreground bg-accent px-4 py-1 rounded-full">
+                          Most popular
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Name + Price */}
+                    <div className="mb-6">
+                      <h3 className="text-base font-semibold text-foreground">
+                        {tier.name}
+                      </h3>
+                      <p className="mt-3">
+                        {annual ? (
+                          <>
+                            <span className="text-4xl font-bold tracking-tight text-foreground">
+                              ${price.toLocaleString()}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              /yr
+                            </span>
+                            <span className="ml-2 text-xs text-muted-foreground">
+                              (${Math.round(price / 12)}/mo)
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-4xl font-bold tracking-tight text-foreground">
+                              ${price}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              /mo
+                            </span>
+                          </>
+                        )}
+                      </p>
+                      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                        {tier.description}
+                      </p>
+                    </div>
+
+                    {/* Setup fee */}
+                    <div className="mb-5 px-3 py-2.5 rounded-lg bg-muted/30 border border-border/50">
+                      <p className="text-xs text-muted-foreground">
+                        {setup === 0 ? (
+                          <span className="text-accent font-semibold">
+                            Setup waived
+                          </span>
+                        ) : (
+                          <>
+                            Setup: ${setup.toLocaleString()}
+                            {tier.setupLabel && annual && (
+                              <span className="ml-1.5 text-accent font-semibold">
+                                ({tier.setupLabel})
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </p>
+                    </div>
+
+                    {/* Features */}
+                    <ul className="flex-1 space-y-3 mb-8">
+                      {tier.features.map((feature, j) => (
+                        <li
+                          key={j}
+                          className="flex items-start gap-2.5 text-sm text-muted-foreground"
+                        >
+                          <Check
+                            size={15}
+                            className="text-accent shrink-0 mt-0.5"
+                          />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* CTA */}
+                    <Button
+                      variant={tier.popular ? "cta" : "outline"}
+                      size="lg"
+                      className="w-full"
+                      asChild
                     >
-                      Get started
-                    </a>
-                  </Button>
-                </div>
-              </FadeIn>
-            ))}
+                      <a
+                        href={appendUTMParams(stripeUrl)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Get started
+                      </a>
+                    </Button>
+                  </div>
+                </FadeIn>
+              );
+            })}
           </div>
+
+          {/* ── Guarantee ──────────────────────────────────────────── */}
+          <FadeIn delay={0.3}>
+            <div className="mt-10 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <ShieldCheck size={16} className="text-accent" />
+              <span>
+                90-day pro-rata money-back guarantee on all subscriptions
+              </span>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -253,7 +377,7 @@ export default function Pricing() {
       <footer className="border-t border-border py-10">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center">
           <span className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Parnell.Systems. All rights reserved.
+            © {new Date().getFullYear()} Parnell Systems. All rights reserved.
           </span>
         </div>
       </footer>
