@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
+import { useSEO } from "@/hooks/use-seo";
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 
@@ -47,6 +48,13 @@ export default function DemoPage() {
     }
     setIsPlaying(!isPlaying);
   };
+
+  useSEO({
+    title: nicheData
+      ? `${nicheData.title} — Parnell Systems`
+      : "Demo — Parnell Systems",
+    description: nicheData?.blurb,
+  });
 
   /* ── 404 guard ───────────────────────────────────────────────── */
   if (!nicheData) {
