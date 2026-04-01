@@ -59,6 +59,11 @@ export default function Privacy() {
                   handles calls
                 </li>
                 <li>
+                  <strong>Voice data:</strong> Audio recordings of calls handled
+                  by your AI agent, generated transcripts, and caller sentiment
+                  analysis used to improve call handling quality
+                </li>
+                <li>
                   <strong>Website analytics:</strong> Pages visited, time on
                   site, referral source, device type, and IP address via Google
                   Analytics 4
@@ -105,6 +110,11 @@ export default function Privacy() {
                 <li>
                   <strong>Telephony providers</strong> — voice call routing and
                   recording
+                </li>
+                <li>
+                  <strong>Meta (Facebook Pixel)</strong> — we may implement
+                  Facebook Pixel in the future for advertising measurement and
+                  retargeting
                 </li>
               </ul>
               <p>
