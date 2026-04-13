@@ -132,7 +132,7 @@
 <div class="diagram">
   <div class="page-title">parnellsystems.com</div>
   <div class="page-subtitle">GTM &amp; Build Plan Progress</div>
-  <div class="page-date">Last updated: 2026-04-13</div>
+  <div class="page-date">Last updated: 2026-04-13 &mdash; W3 pivoted Meta &rarr; Google Ads</div>
 
   <div class="nav-links">
     <a class="nav-link" href="../index.html">&larr; Project Docs</a>
@@ -141,27 +141,28 @@
   </div>
 
   <!-- ── OVERALL PROGRESS ── -->
-  <!-- 29 done, 3 in progress, 1 blocked, 30 todo / 63 total = ~48% -->
+  <!-- 29 done, 3 in progress, 0 blocked, 31 todo / 63 total = ~46% -->
+  <!-- 2026-04-13: W3 pivoted from Meta (blocked) to Google Ads (not started). Meta BM ban unresolved → deferred. -->
   <div class="progress-summary">
     <div class="progress-header">
       <span class="progress-label">Overall Plan Completion</span>
-      <span class="progress-pct">~48%</span>
+      <span class="progress-pct">~46%</span>
     </div>
     <div class="progress-bar-track">
-      <div class="progress-bar-fill" style="width: 48%; background: linear-gradient(90deg, var(--green-text), var(--amber-text))"></div>
+      <div class="progress-bar-fill" style="width: 46%; background: linear-gradient(90deg, var(--green-text), var(--amber-text))"></div>
     </div>
     <div class="progress-stats">
       <div class="progress-stat"><span class="stat-dot done"></span> 29 tasks done</div>
       <div class="progress-stat"><span class="stat-dot progress"></span> 3 in progress</div>
-      <div class="progress-stat"><span class="stat-dot blocked"></span> 1 blocked (Meta BM)</div>
-      <div class="progress-stat"><span class="stat-dot todo"></span> 30 remaining</div>
+      <div class="progress-stat"><span class="stat-dot blocked"></span> 0 blocked</div>
+      <div class="progress-stat"><span class="stat-dot todo"></span> 31 remaining</div>
     </div>
   </div>
 
   <!-- ── WORKSTREAM CARDS ── -->
   <div class="workstreams">
 
-    <!-- W1: Tracking / SEO / Blocker Fixes — 12 done, 1 progress, 1 blocked, 2 todo of 16 = ~78% -->
+    <!-- W1: Tracking / SEO / Blocker Fixes — 12 done, 1 progress, 3 todo of 16 = ~78% (was 1 blocked, rehomed as todo on 2026-04-13 pivot) -->
     <div class="ws-card ws-amber">
       <div class="ws-band">
         <div>
@@ -184,7 +185,7 @@
         <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Pricing page + annual toggle</span></div>
         <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Early-access banner</span></div>
         <div class="task progress"><span class="task-icon">&#9672;</span> <span class="task-text">Google Search Console verification (Giles)</span></div>
-        <div class="task blocked"><span class="task-icon">&#9888;&#65039;</span> <span class="task-text">Facebook Pixel &mdash; Meta BM ban, new account pending</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Google Ads global site tag + conversion events</span></div>
         <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">JSON-LD structured data + prerenderer</span></div>
         <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Google Business Profile setup</span></div>
       </div>
@@ -276,21 +277,22 @@
       </div>
     </div>
 
-    <!-- W3: Facebook/Instagram Ads — 0/4 — blocked -->
-    <div class="ws-card ws-rose">
+    <!-- W3: Google Ads (Search + YouTube) — 0/5 — not started. Pivoted 2026-04-13 from Meta (BM suspended) -->
+    <div class="ws-card ws-slate">
       <div class="ws-band">
         <div>
           <div class="ws-id">W3 &middot; Paid Media</div>
-          <div class="ws-name">Facebook / Instagram Ads</div>
+          <div class="ws-name">Google Ads (Search + YouTube)</div>
         </div>
         <div class="ws-pct">0%</div>
       </div>
       <div class="ws-bar-track"><div class="ws-bar-fill" style="width:0%"></div></div>
       <div class="ws-tasks">
-        <div class="task blocked"><span class="task-icon">&#9888;&#65039;</span> <span class="task-text">Meta Business Manager (new account pending)</span></div>
-        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Campaign structure per niche</span></div>
-        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Landing page optimisation</span></div>
-        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Launch 3 campaigns + retargeting</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Google Ads account + billing + GA4 link</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Import conversion actions (Lead, Book Demo&hellip;)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Search Campaign 1 (niche keywords, 7 ad groups)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Search Campaign 2 (missed-call high-intent terms)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">YouTube remarketing (VSL-driven, week 2+)</span></div>
       </div>
     </div>
 
@@ -355,8 +357,8 @@
   <div class="next-items">
     <h3>Top Immediate Next Items</h3>
     <ol>
-      <li><strong>[BLOCKER]</strong> Resolve Meta Business Manager ban &mdash; new account creation unblocks W3 ad campaigns. Giles to create new Meta account; Claude to re-test Pixel once ready.</li>
-      <li>HeyGen VSL videos (W2.1&ndash;2.3) &mdash; avatar setup + record scripts for 7 niches. <em>Highest conversion uplift.</em></li>
+      <li><strong>[PIVOT — 2026-04-13]</strong> W3 switched from Meta to Google Ads after Meta BM suspended. Create Google Ads account, link GA4, import conversion actions. <em>No longer blocked.</em></li>
+      <li>HeyGen VSL videos (W2.1&ndash;2.3) &mdash; avatar setup + record scripts for 7 niches. <em>Highest conversion uplift and unlocks YouTube remarketing.</em></li>
       <li>Stripe live mode setup (W5.5) &mdash; replicate test products/prices into live mode. <em>Revenue blocker.</em></li>
       <li>GHL nurture workflows (W4.1&ndash;4.3) &mdash; 90-day sequence wired to form submissions.</li>
       <li>ProcessSection final contrast review (W9.10) &mdash; ship redesigned homepage before VSL integration.</li>

@@ -22,9 +22,9 @@ This is the master plan for taking Parnell Systems voice AI from "website live" 
 - No nurture sequences or lead management workflows
 
 **Target State (8 weeks):**
-- Facebook Pixel + Google Analytics tracking every visitor and conversion
+- Google Ads conversion tracking + GA4 enhanced conversions on every visitor and lead event
 - SEO-optimised pages ranking for "AI receptionist [niche] Australia"
-- Facebook/Instagram ads driving qualified traffic at < $40 AUD CPL
+- Google Ads (Search + YouTube) driving qualified traffic at < $60 AUD CPL
 - HeyGen VSL videos on every demo page and in ad creative
 - GHL workflows handling speed-to-lead (< 60 seconds) + 90-day nurture
 - Stripe recurring payments live on pricing page
@@ -41,11 +41,11 @@ The SpecFlow analysis identified these issues that **block** the ad launch:
 | # | Blocker | Severity | Fix |
 |---|---------|----------|-----|
 | B1 | **Stripe URLs are placeholders** — Pricing page CTAs go nowhere | Critical | Giles: Create Stripe Payment Links, Claude: wire in |
-| B2 | **No /privacy or /terms pages** — Footer links 404. Facebook rejects ads without a privacy policy | Critical | Claude: Create basic Privacy + Terms pages |
+| B2 | **No /privacy or /terms pages** — Footer links 404. Google Ads policy + AU Privacy Act both require a privacy policy on any page that collects data | Critical | Claude: Create basic Privacy + Terms pages |
 | B3 | **No /demos index route** — "All demos" back-link on demo pages 404s | High | Claude: Add route that redirects to /#demos or renders a listing |
 | B4 | **Placeholder testimonials** — "Rob", "Sarah", "Marcus" are fictional. Risk under AU Consumer Law if shown to paid traffic | High | Remove section or replace with real quotes |
 | B5 | **UTM parameters lost at booking CTA** — Booking URL is hardcoded. No way to attribute which ad generated a booking | High | Claude: Append UTM params from page URL to booking link |
-| B6 | **SPA OG tags are static** — Sharing any demo page on Facebook shows "Parnell.Systems — Systems Consulting" | Medium | Claude: Pre-rendering or Vercel edge middleware for OG injection |
+| B6 | **SPA OG tags are static** — Sharing any demo page on LinkedIn/Twitter/WhatsApp shows "Parnell.Systems — Systems Consulting". Lower priority since Google Ads doesn't surface OG cards, but still matters for organic sharing and the JSON-LD-driven SERP appearance | Low | Claude: Pre-rendering or Vercel edge middleware for OG injection |
 
 **These must be resolved in W1 alongside tracking + SEO.**
 
@@ -57,7 +57,7 @@ The SpecFlow analysis identified these issues that **block** the ad launch:
 |---|-----------|----------|---------------|--------|-------|
 | W1 | Tracking, SEO & Blocker Fixes | P0 — Do first | Indirect (enables everything) | Low-Med | Claude + Giles |
 | W2 | Website Enhancement + VSL Videos | P1 — This week | High (conversion rate) | Medium | Giles (HeyGen) + Claude (code) |
-| W3 | Facebook/Instagram Ads | P1 — This week | High (traffic) | Medium | Giles (Meta) + Claude (landing pages) |
+| W3 | Google Ads (Search + YouTube) | P1 — This week | High (traffic) | Medium | Giles (Google Ads) + Claude (landing pages) |
 | W4 | GHL Lead Management & Nurture | P1 — Parallel | High (lead-to-close rate) | Medium | Giles (GHL) |
 | W5 | Client Onboarding Form + Stripe | P2 — Week 2 | High (payment collection) | Medium | Claude (code) + Giles (Stripe/GHL) |
 | W6 | Automated Cold Outreach Pipeline | P3 — Week 3+ | Very High (pipeline) | High | Claude (build) + Giles (strategy) |
@@ -69,38 +69,46 @@ The SpecFlow analysis identified these issues that **block** the ad launch:
 
 **Goal:** Every visitor is tracked, every page is indexable, every share looks professional, and all critical blockers are resolved before ads launch.
 
-**Why first:** Without tracking, you can't measure anything. Without SEO, organic traffic is zero. Without the blocker fixes, ads will either be rejected by Facebook or leak leads. This is the foundation everything else builds on.
+**Why first:** Without tracking, you can't measure anything. Without SEO, organic traffic is zero. Without the blocker fixes, ads will either be rejected by Google Ads policy review or leak leads through broken attribution. This is the foundation everything else builds on.
 
 ### W1.0 — Critical Blocker Fixes (Before Ads)
 
-- [ ] Claude: Create `/privacy` page with basic privacy policy (required for Facebook ad approval + AU Privacy Act compliance)
+- [ ] Claude: Create `/privacy` page with basic privacy policy (required for Google Ads personalised advertising policy + AU Privacy Act compliance)
 - [ ] Claude: Create `/terms` page with basic terms of service
 - [ ] Claude: Add `/demos` route (redirect to `/#demos` or render a demos listing page) — currently 404s
 - [ ] Claude: Fix UTM parameter passthrough — read `window.location.search` and append to all booking CTA `href` values dynamically
 - [ ] Claude: Remove placeholder testimonials section (Rob, Sarah, Marcus are fictional) or replace with real quotes. Risk under Australian Consumer Law if shown to paid traffic.
 - [ ] Claude: Update `index.html` OG tags from "Systems Consulting" to voice product messaging
 
-### W1.1 — Facebook Pixel Installation
+### W1.1 — Google Ads Conversion Tracking
 
-- [ ] Giles: Create Meta Business Manager account at [business.facebook.com](https://business.facebook.com)
-- [ ] Giles: Go to Events Manager → Connect Data Sources → Web → Facebook Pixel → Create
-- [ ] Giles: Copy the Pixel ID (format: `123456789012345`)
-- [ ] Claude: Add Pixel base code to `index.html` `<head>`
-- [ ] Claude: Add `PageView` event firing on route change (React Router listener)
-- [ ] Claude: Add custom events: `Lead` (contact form submit), `Schedule` (booking CTA click), `ViewContent` (demo page view)
-- [ ] Verify: Use Meta Pixel Helper Chrome extension to confirm events fire
+- [ ] Giles: Create a Google Ads account at [ads.google.com](https://ads.google.com) and link it to the existing GA4 property (from W1.2) so enhanced conversions flow through
+- [ ] Giles: In Google Ads → Tools → Conversions, define four conversion actions: `Lead` (contact form submit), `Book Demo` (booking CTA click), `View Pricing` (pricing page view), `Start Demo` (voice orb interaction)
+- [ ] Giles: Copy the global site tag ID (format: `AW-XXXXXXXXXX`) and each conversion label
+- [ ] Claude: Add `gtag.js` global site tag to `index.html` `<head>` alongside the existing GA4 tag — both can share a single `gtag()` function
+- [ ] Claude: Fire conversion events from the React app on the matching user actions (use a lightweight `trackConversion(name)` helper that no-ops when the tag id isn't set)
+- [ ] Claude: Wire enhanced conversions — hash user email/phone client-side before sending so Google can match offline conversions back to clicks
+- [ ] Verify: Use the **Google Tag Assistant** Chrome extension to confirm the tag loads and each conversion fires on the expected action
 
-**Technical:** Add to `index.html`:
+**Technical:** Add to `index.html` (shared with the GA4 snippet):
 ```html
-<!-- Meta Pixel Code -->
+<!-- Google Ads + GA4 shared gtag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
 <script>
-!function(f,b,e,v,n,t,s){...}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', 'YOUR_PIXEL_ID');
-fbq('track', 'PageView');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-W5KLWM7QB0');     // GA4
+  gtag('config', 'AW-XXXXXXXXXX');    // Google Ads
 </script>
 ```
 
-Plus a React hook for route-change tracking and custom conversion events.
+Conversion fire in React:
+```js
+gtag('event', 'conversion', { send_to: 'AW-XXXXXXXXXX/abcDEF123' });
+```
+
+Plus a React Router listener for route-change `page_view` events and the per-action `trackConversion()` helper.
 
 ### W1.2 — Google Analytics 4
 
@@ -112,7 +120,7 @@ Plus a React hook for route-change tracking and custom conversion events.
 
 ### W1.3 — SEO Meta Tags
 
-**Current problem:** `index.html` still says "Parnell.Systems — Systems Consulting". All demo pages share the same static OG tags. When someone shares a demo page on Facebook, it shows the wrong title/image.
+**Current problem:** `index.html` still says "Parnell.Systems — Systems Consulting". All demo pages share the same static OG tags. When someone shares a demo page on LinkedIn, Twitter or WhatsApp it shows the wrong title/image, and Google crawlers see generic `<title>` content for the full SPA.
 
 - [ ] Claude: Update `index.html` meta tags for the voice product:
   - Title: `Parnell Systems Voice AI — Never Miss a Customer Call`
@@ -181,8 +189,8 @@ Plus a React hook for route-change tracking and custom conversion events.
 | Dashboard | What It Shows | Check Frequency |
 |-----------|--------------|-----------------|
 | **Google Analytics 4** (analytics.google.com) | Website traffic, page views, session duration, traffic sources, device breakdown | Daily |
-| **Meta Ads Manager** (business.facebook.com) | Ad spend, CPL, click-through rate, conversions, audience performance | Daily when ads running |
-| **Meta Pixel Events** (Events Manager) | Custom events firing (Lead, Schedule, ViewContent), event match quality | Weekly verification |
+| **Google Ads** (ads.google.com) | Ad spend, CPL, CTR, conversions, search term reports, quality score | Daily when ads running |
+| **Google Ads Conversions** (Tools → Conversions) | Conversion actions firing (Lead, Book Demo, View Pricing), attribution path | Weekly verification |
 | **Google Search Console** (search.google.com/search-console) | Organic search impressions, clicks, average position, indexing status, errors | Weekly |
 | **GHL Dashboard** (app.gohighlevel.com) | Pipeline status, leads in each stage, appointments booked, SMS/email delivery rates, workflow performance | Daily |
 | **Stripe Dashboard** (dashboard.stripe.com) | MRR, payment success rate, churn, upcoming renewals | Weekly |
@@ -190,12 +198,12 @@ Plus a React hook for route-change tracking and custom conversion events.
 **Daily routine (5 minutes):**
 1. Check GHL for new leads and pipeline movement
 2. Check GA4 real-time and yesterday's traffic
-3. If ads are running, check Meta Ads Manager for spend and CPL
+3. If ads are running, check Google Ads for spend and CPL
 
 **Weekly routine (15 minutes):**
 1. GA4: Week-over-week traffic trends, top-performing pages
 2. Search Console: New keywords ranking, any indexing issues
-3. Meta Ads: Campaign-level performance, pause underperformers
+3. Google Ads: Campaign-level performance, search term report (add negatives, pause underperformers, bid-adjust winners)
 4. Stripe: Revenue tracking, any failed payments
 
 ### W1.6 — OG Image for Social Sharing
@@ -204,11 +212,11 @@ Plus a React hook for route-change tracking and custom conversion events.
 - [ ] Long-term: Generate per-niche OG images (e.g., "AI Receptionist for Tradies" card)
 
 **Acceptance Criteria:**
-- [ ] Facebook Pixel fires PageView on every page load
-- [ ] Custom events fire on form submit and CTA clicks
+- [ ] Google Ads global site tag fires `page_view` on every route change
+- [ ] Conversion events (`Lead`, `Book Demo`, `View Pricing`, `Start Demo`) fire on the matching actions and appear in Google Ads → Conversions within 24h
 - [ ] GA4 shows real-time data
 - [ ] Google Search Console shows pages indexed
-- [ ] Sharing a demo page link on Facebook shows correct title/image/description
+- [ ] Sharing a demo page link on LinkedIn/Twitter/WhatsApp shows correct title/image/description
 
 ---
 
@@ -280,8 +288,9 @@ Create one script per niche following this proven structure (60-90 seconds):
 
 ### W2.6 — Ad Creative Versions
 
-- [ ] Giles: Produce 9:16 (vertical) versions of top 3 niche VSLs for Facebook/Instagram Stories & Reels
-- [ ] Giles: Produce 1:1 (square) versions for Facebook Feed
+- [ ] Giles: Produce 9:16 (vertical) versions of top 3 niche VSLs for YouTube Shorts + Performance Max vertical placements
+- [ ] Giles: Produce 16:9 versions for YouTube in-stream (skippable pre-roll) and Display network
+- [ ] Giles: Upload all cuts to a **dedicated, unlisted YouTube channel** owned by the Google Ads account — Google Ads video campaigns pull directly from YouTube, not direct MP4 uploads
 - [ ] These will be used in W3 (ad campaigns)
 
 **Acceptance Criteria:**
@@ -292,67 +301,90 @@ Create one script per niche following this proven structure (60-90 seconds):
 
 ---
 
-## W3: Facebook/Instagram Ads
+## W3: Google Ads (Search + YouTube)
 
-**Goal:** Drive qualified traffic to demo pages at < $40 AUD CPL.
+**Goal:** Drive qualified, intent-matched traffic to demo pages at < $60 AUD CPL on Search and < $45 AUD CPL on YouTube remarketing.
 
-### W3.1 — Meta Business Manager & Ad Account Setup
+**Why Google over Meta:** People searching "AI receptionist for plumbers Australia" are already shopping. Intent-based acquisition is a structurally better fit for a high-ticket B2B SaaS than Meta's interruption model. Meta is deferred — see the footnote at the end of this document for the historical notes.
 
-- [ ] Giles: Ensure Meta Business Manager is created (from W1.1)
-- [ ] Giles: Create an Ad Account inside Business Manager
-- [ ] Giles: Add payment method (credit card)
-- [ ] Giles: Verify your business (Meta may require this for some ad types)
+### W3.1 — Google Ads Account Setup
 
-**Re: GHL Ads Manager** — Use Meta Ads Manager directly, not GHL's wrapper. GHL's value is post-click (CRM, nurture), not ad management. Meta native gives full access to all targeting, custom audiences, and Pixel event optimisation.
+- [ ] Giles: Create a Google Ads account at [ads.google.com](https://ads.google.com) — a standard Google account is enough, no Business Manager equivalent required
+- [ ] Giles: Add a billing profile (credit card + ABN). Billing is per-account, no approval wait
+- [ ] Giles: Link the existing GA4 property to the Ads account so GA4 audiences and conversions are available
+- [ ] Giles: Import the four GA4 conversion events (`Lead`, `Book Demo`, `View Pricing`, `Start Demo`) from W1.1 as Google Ads conversion actions and set `Lead` + `Book Demo` as Primary
+- [ ] Giles: Enable **enhanced conversions for leads** so hashed email/phone from the form submit flow back for better attribution
+- [ ] Giles: Verify the account doesn't land in "Limited advertiser" status (happens on brand-new accounts for a few weeks — affects impression share but not launch)
+
+**Re: GHL Ads Manager** — Still not used. GHL's wrapper lags behind native Google Ads features and adds a debugging layer. Run ads in Google Ads directly, capture leads in GHL via the contact form webhook.
 
 ### W3.2 — Campaign Structure
 
-**Campaign 1: Tradies (highest-intent niche, phone number available)**
-- Objective: Leads (optimise for Lead event via Pixel)
-- Ad Set: Location = Sydney/Melbourne/Brisbane (25km radius), Age 25-60, Interests = "Small business owners" + "Plumbing" + "Electrical" + "Building"
-- Ad: 30-second HeyGen VSL (vertical) → landing page: voice.parnellsystems.com/demos/tradies
-- Budget: $15-20/day
+**Campaign 1 — Search: "AI Receptionist" core terms (all niches)**
+- Campaign type: **Search**, bid strategy **Maximise Conversions** (switch to Target CPA once 30+ conversions land)
+- Ad groups per niche, each with 10-15 tightly-themed phrase-match keywords:
+  - Tradies: `"ai receptionist for tradies"`, `"ai answering service plumber"`, `"call answering for electricians"`, `"after hours answering tradie"`, `"missed calls tradie"`
+  - Gyms: `"ai receptionist gym"`, `"gym call answering"`, `"missed trial bookings fitness"`
+  - Salons: `"ai receptionist salon"`, `"beauty salon booking phone"`, `"hair salon missed calls"`
+  - Clinics: `"medical receptionist ai"`, `"after hours clinic calls"` — **NB:** healthcare may trigger policy review; start conservative
+  - Automotive: `"mechanic answering service"`, `"auto shop missed calls"`
+  - Pools: `"pool service answering"`, `"pool company missed calls"`
+  - Solar: `"solar lead qualification"`, `"solar call answering"`
+- Responsive Search Ads: 15 headlines + 4 descriptions per ad group, include the niche term in 3+ headlines
+- Negatives: `free`, `job`, `career`, `salary`, `diy`, `open source`, `meaning`, `definition` — prevent research-intent traffic
+- Location: Australia nationwide (tune down later if Sydney/Melbourne/Brisbane convert better)
+- Device bid adjustments: start neutral, adjust after 2 weeks based on mobile conversion rate
+- Budget: **$50/day** pooled across the campaign (AU Search CPCs for these keywords run $4–$12, so $50/day buys ~5–12 clicks)
 
-**Campaign 2: Gyms & Fitness**
-- Same structure, interests = "Gym owner" + "Personal trainer" + "Fitness studio"
-- Landing page: /demos/gyms
-- Budget: $10-15/day
+**Campaign 2 — Search: High-intent "missed call" problem terms**
+- Ad group: `"missed call costs business"`, `"how much is a missed call worth"`, `"business losing calls"`, `"never miss a call"`
+- Landing page: homepage (broader pitch than any single niche)
+- Budget: **$20/day**
+- Purpose: capture people who haven't self-diagnosed as needing an AI receptionist but are actively looking for a fix
 
-**Campaign 3: Salons & Beauty**
-- Interests = "Hair salon" + "Beauty salon" + "Spa owner"
-- Landing page: /demos/salons
-- Budget: $10-15/day
+**Campaign 3 — YouTube: Remarketing + custom intent**
+- Campaign type: **Video**, goal: Leads, format: Skippable in-stream + In-feed
+- Audiences:
+  - Remarketing: all website visitors last 30 days, excluding `Lead` converters
+  - Custom intent: people who recently searched any of the Campaign 1 keywords on Google
+- Creative: 60–90s HeyGen VSLs (from W2), niche-specific cuts on the remarketing audience
+- Landing page: the niche-matched demo page
+- Budget: **$15/day**, starts once W2 VSLs are produced (week 2+)
 
-**Retargeting Campaign (starts after 7 days of traffic):**
-- Custom Audience: Website visitors (all pages) — last 30 days
-- Exclude: People who submitted the contact form
-- Ad: Testimonial video or social proof carousel
-- Budget: $5-10/day
+**Performance Max (deferred, test after 3 weeks)**
+- PMax is powerful but steals credit from your Search campaigns and is a black box during learning. Only turn it on once Search has a stable CPA benchmark to anchor the PMax target against. Initial PMax test: $25/day, excluded from brand and from Campaign 1 keywords via account-level negatives.
 
 ### W3.3 — Landing Page Optimisation
 
-- [ ] Claude: Ensure demo pages load fast (< 2 seconds) — lazy load video + voice orb
-- [ ] Claude: Add UTM parameter tracking so GA4/Pixel can attribute leads to specific campaigns
-- [ ] Claude: Ensure mobile layout is pristine (75-85% of FB traffic is mobile)
+- [ ] Claude: Ensure demo pages load fast (< 2 seconds LCP) — lazy load video + voice orb. Google Ads Quality Score penalises slow pages.
+- [ ] Claude: UTM parameter tracking confirmed end-to-end (Google Ads auto-tagging `gclid` + manual UTMs for GA4 reporting) so attribution survives through to the booking CTA and form submit
+- [ ] Claude: Ensure mobile layout is pristine — Google Search AU traffic is ~65% mobile, YouTube is ~80% mobile
+- [ ] Claude: Make sure the niche in the URL matches the H1 within 3 seconds of landing (Quality Score signal — ad-to-landing-page relevance)
+- [ ] Claude: Ensure the `/privacy` page is linked from the footer on every page (Google Ads policy requirement)
 
 ### W3.4 — Budget & Timeline
 
 | Phase | Daily Spend | Duration | Total |
 |-------|-----------|----------|-------|
-| Testing (3 campaigns) | $35-50/day | 2 weeks | $500-700 |
-| Scale winners | $50-100/day | Ongoing | $1,500-3,000/mo |
-| Retargeting | $5-10/day | Ongoing | $150-300/mo |
+| Testing (Search Campaigns 1 + 2) | $70/day | 2 weeks | ~$1,000 |
+| Add YouTube remarketing (Camp 3) | +$15/day | Week 2 onwards | +$450/mo |
+| Scale winning niches | up to $150/day | Ongoing | $3,000-4,500/mo |
+| Performance Max (experimental) | $25/day | From week 4 | $750/mo |
 
 **Expected results (conservative):**
-- $40 CPL × $50/day = ~1-2 leads/day
-- 10-15 leads/week after optimisation
-- If 20% book a call and 30% close = 1-2 new clients/month from ads alone
+- Search CPC: $4–$12, landing-page conversion rate 3–6% → CPL $70–$300 initially, tuning to $40–$70 after 2–3 weeks of negatives and bid adjustments
+- $70/day × 14 days = ~$1,000 burn to reach statistical significance on Search
+- 6–12 leads/week once Search is optimised
+- If 20% book a call and 30% close = 0.5–1.5 new clients/month from Search alone, doubling once YouTube remarketing adds reach
+
+**Reality check on budget:** Google Search in AU for competitive SMB keywords is more expensive per click than Meta was. $15/day per campaign would give you 1–2 clicks/day — not enough to learn from in any reasonable timeframe. Budget $50–70/day on Search from day one or defer paid acquisition.
 
 **Acceptance Criteria:**
-- [ ] 3 campaigns live and spending
-- [ ] Pixel tracking conversions correctly
-- [ ] CPL below $50 AUD within 2 weeks
-- [ ] Retargeting campaign active by week 3
+- [ ] Search Campaign 1 + 2 live and spending
+- [ ] Google Ads conversion tracking shows conversions flowing in (verify via Google Ads UI + GA4 cross-check within 48h of first form submit)
+- [ ] CPL below $70 AUD on Search within 2 weeks, target $50 within 4 weeks
+- [ ] YouTube remarketing campaign active once W2 VSLs are produced
+- [ ] Weekly search term report run and negatives added
 
 ---
 
@@ -374,7 +406,7 @@ Create a pipeline in GHL with these stages:
 
 ### W4.2 — Speed-to-Lead Workflow (< 60 seconds)
 
-**Trigger:** New contact created (from contact form, Facebook Lead Ad, or manual)
+**Trigger:** New contact created (from contact form submit, inbound ad lead, or manual add)
 
 **Immediate (0-60 seconds):**
 - SMS: "Hey [First Name], thanks for your interest in Parnell Systems Voice AI! I'm Giles — when's a good time for a quick 10-min chat? Here's my calendar: [booking link]"
@@ -756,7 +788,7 @@ This will need its own `/ce:plan` covering:
 - [ ] Claude: Add a "Database Reactivation" section to VoiceHome (below How It Works or as a separate feature card)
 - [ ] Claude: Consider a dedicated `/reactivation` page with its own VSL and CTA
 - [ ] Giles: Create a HeyGen VSL for DB reactivation: "Got a database of old leads gathering dust? We'll turn them into appointments this week."
-- [ ] Position in Facebook ads: "We'll reactivate your dormant leads for free when you sign up" — powerful ad hook
+- [ ] Position in Google Ads copy + YouTube VSL: "We'll reactivate your dormant leads for free when you sign up" — powerful hook, especially for Campaign 2 high-intent "missed call" keywords
 
 ### W7.6 — Delivery Process
 
@@ -781,29 +813,29 @@ This will need its own `/ce:plan` covering:
 ```
 Week 1 (Now)
 ├── W1: Blocker Fixes (Claude — 2-3 hours)
-│   ├── Create /privacy and /terms pages
-│   ├── Add /demos index route
-│   ├── Fix UTM passthrough on booking CTAs
-│   ├── Remove or flag placeholder testimonials
-│   ├── Facebook Pixel + GA4 installation
-│   ├── Meta tags update (voice product, not "Systems Consulting")
-│   ├── Sitemap + robots.txt
-│   └── Google Search Console setup (Giles)
+│   ├── /privacy, /terms, /demos routes (done)
+│   ├── UTM passthrough on booking CTAs (done)
+│   ├── Real testimonials (done)
+│   ├── Google Ads global site tag + GA4 enhanced conversions
+│   ├── HTML meta tags / OG update (done — voice product)
+│   ├── Sitemap + robots.txt (done)
+│   └── Google Search Console verification (Giles, in progress)
 ├── W2: HeyGen setup + first 2 VSL scripts (Giles)
-├── W3: Meta Business Manager setup (Giles)
+├── W3: Google Ads account + billing + GA4 link + conversion import (Giles)
 ├── W4: GHL pipeline + speed-to-lead workflow (Giles)
 └── W7: Define reactivation product + build GHL template (Giles)
 
 Week 2
 ├── W2: Record remaining VSLs + embed on website (Giles + Claude)
-├── W3: Launch 3 ad campaigns (Giles) — only after blockers fixed
+├── W3: Launch Search Campaigns 1 + 2 (Giles) — only after W1 tracking + blockers verified
 ├── W4: Build 90-day nurture sequence (Giles)
 ├── W5: Wire Stripe payment links (Giles + Claude)
 ├── W5: Build onboarding form in GHL (Giles)
 └── W7: Run first reactivation campaign with existing client
 
 Week 3
-├── W3: Analyse ad performance, kill losers, scale winners
+├── W3: First search-term-report pass — add negatives, pause losing keywords, bid-adjust winners
+├── W3: Launch YouTube remarketing campaign (once VSLs are live on the unlisted YouTube channel)
 ├── W4: Test GHL AI workflow builder for lead qualification
 ├── W5: Document first niche setup runbook
 ├── W5: Set up Slack integration for onboarding
@@ -811,7 +843,8 @@ Week 3
 └── W6: Begin /ce:plan for cold outreach pipeline
 
 Week 4+
-├── W3: Retargeting campaigns live
+├── W3: Scale winning niches, switch Campaign 1 to Target CPA once 30+ conversions
+├── W3: Performance Max experimental campaign ($25/day, walled off from brand + Camp 1 keywords)
 ├── W5: Offshore readiness — all runbooks documented
 ├── W6: Build automated outreach pipeline
 ├── W7: Add reactivation to ad messaging + landing page
@@ -830,7 +863,8 @@ Week 4+
 | Demo calls booked/week | 2-3 | 5-8 |
 | New clients/month | 2-3 | 5-8 |
 | Monthly recurring revenue | $2,000+ | $5,000+ |
-| CPL (Facebook Ads) | < $50 | < $35 |
+| CPL (Google Search Ads) | < $70 | < $50 |
+| CPL (YouTube remarketing) | < $55 | < $40 |
 | Speed-to-lead (first response) | < 60 seconds | < 60 seconds |
 | Lead-to-demo conversion | 20%+ | 25%+ |
 | DB Reactivation campaigns run | 1+ | 3+ |
@@ -843,10 +877,11 @@ Week 4+
 | Risk | Severity | Mitigation |
 |------|----------|------------|
 | **AU Privacy Act / Spam Act non-compliance on DB reactivation** | **High** | Two-stage permission-pass model. DNCR wash every campaign. Template service agreement with lawyer review. See W7.3 for full compliance framework |
-| **Meta ad account rejection or restriction** | **Medium-High** | New ad accounts face higher scrutiny. Start with modest spend ($15/day). Ensure /privacy and /terms pages exist before first ad. Avoid prohibited content in ads. Have a backup personal ad account. |
+| **Google Ads policy disapproval on regulated niches** | **Medium** | Healthcare (clinics) and anything near "medical device" language can trigger policy review that stalls or rejects ads. Mitigation: start Search Campaign 1 with the 5 non-regulated niches (tradies, gyms, salons, automotive, pools); add clinics + solar after the account has a few weeks of clean history. Keep landing-page copy factual, no outcome claims. |
+| **New Google Ads account "Limited advertiser" status** | **Medium** | Brand-new accounts sit in Limited status for ~2–4 weeks, capping impression share. Not a launch blocker — expected to clear automatically as the account proves policy compliance. Don't over-optimise against bad data during this window. |
 | **Existing customer churn on price increase** | **Medium** | 90-day loyalty bridge + annual lock offer. Personal phone call, not email. See W5.1 migration strategy |
 | HeyGen avatar quality isn't convincing | Medium | Test with 1 video first. Fallback: screen recording with voiceover |
-| Facebook ad CPL too high initially | Medium | Start with $15/day per campaign. Kill underperformers after 3 days. Test 3+ creatives per ad set |
+| Google Search CPC higher than expected on competitive niches | Medium | Budget $50–70/day on Search from day one (not $15). Run search term report weekly, add negatives aggressively. Move to Target CPA only after 30+ conversions land. Test 3+ RSA headline variations per ad group. |
 | GHL AI workflows unreliable | Low | Use as experimental layer only. Standard rule-based workflows as fallback |
 | GHL rate limiting on bulk SMS campaigns | Medium | Stagger sends (not all at once). GHL has daily SMS limits per sub-account. Test with small batches first. |
 | Stripe migration delays | Low | Keep booking-link CTAs as fallback until Stripe links are ready |
@@ -866,7 +901,8 @@ Week 4+
 - Niche config: `website/src/config/niches.ts`
 
 ### Key Decisions
-- **Meta Ads Manager over GHL Ads Manager** — GHL's wrapper is always behind, debugging two layers. Run ads in Meta, capture leads in GHL.
+- **Google Ads over Meta for paid acquisition (2026-04-13 pivot)** — Intent-driven Search is a better fit for a high-ticket B2B SaaS than Meta's interruption model, and the Meta Business Manager was suspended with no resolution path. See `ai-os/decisions/2026-04-13-001-google-ads-over-meta-for-paid-acquisition.md`. Meta is deferred, not cancelled — kept as a footnote at the bottom of this doc for future reference.
+- **Run Google Ads directly, not through GHL Ads Manager** — GHL's wrapper lags behind native Google Ads features and adds a debugging layer. Capture leads in GHL, manage ads in Google Ads.
 - **HeyGen for VSLs** — Best avatar quality as of 2026. Business plan ($89 USD/mo) gives 30 minutes of video.
 - **Email-first for cold outreach** — Australian Spam Act makes cold SMS risky. Email with proper unsubscribe is safer.
 - **GHL native forms for onboarding** — Integrates directly with CRM, no Zapier needed.
@@ -875,3 +911,19 @@ Week 4+
 - **`@prerenderer/rollup-plugin` for SPA pre-rendering** — Simplest option for ~15 pages. Alternatives (Vike, react-snap, prerender.io, Rendertron) rejected for complexity, maintenance, or cost reasons.
 - **Two-stage reactivation model for DB campaigns** — Permission-pass SMS first, full campaign only to opt-ins. Required for Spam Act / Privacy Act compliance with dormant customer data.
 - **Treat Parnell Systems as covered by the Privacy Act** — Small business exemption likely doesn't apply ("trading in personal information" exception) and is being phased out.
+
+---
+
+## Footnote: Meta Ads (Deferred, not cancelled)
+
+This plan originally targeted Meta (Facebook + Instagram) as the primary paid channel. It has been deferred as of **2026-04-13** after the Parnell Systems Meta Business Manager was suspended with no resolvable appeal path despite multiple days of support engagement. Rather than keep blocking the GTM roadmap on Meta support, the decision is to run paid acquisition on Google Ads and revisit Meta only if access is restored as a surprise bonus.
+
+**Historical plan notes preserved for future reference:**
+
+If Meta access is ever restored, the original Meta plan had three Search-equivalent interrupt-driven campaigns (Tradies / Gyms & Fitness / Salons & Beauty) at $10–20/day per campaign, with a $5–10/day retargeting campaign on website-visitor custom audiences after 7 days. Pixel events were scoped as `PageView`, `Lead`, `Schedule`, `ViewContent`. Expected CPL was < $40 AUD with Meta-native optimisation using the Lead event.
+
+**What to reuse vs rebuild if Meta comes back online:**
+- Reuse: niche targeting logic, VSL creative (9:16 + 1:1 cuts already called for in W2.6 are usable on Meta), landing pages, UTM plumbing, compliance/privacy work
+- Rebuild: Pixel installation (W1.1 replaced with Google Ads tag — would need to be added alongside, not replacing), Meta Business Manager + ad account verification, Meta-specific audiences and lookalikes
+
+**Decision record:** `ai-os/decisions/2026-04-13-001-google-ads-over-meta-for-paid-acquisition.md`
