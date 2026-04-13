@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>parnellsystems.com — Plan Progress</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0f1117;
+    --surface:    #151821;
+    --border:     #1e293b;
+    --text1:      #e2e8f0;
+    --text2:      #94a3b8;
+    --text3:      #475569;
+    --mono:       'SF Mono', Menlo, monospace;
+
+    --green-bg:     #0a1f14; --green-border:  #059669; --green-text:  #34d399;
+    --amber-bg:     #1a1208; --amber-border:  #d97706; --amber-text:  #fbbf24;
+    --blue-bg:      #0f1a2e; --blue-border:   #3b82f6; --blue-text:   #60a5fa;
+    --purple-bg:    #1a1035; --purple-border: #6d28d9; --purple-text: #a78bfa;
+    --teal-bg:      #051a18; --teal-border:   #0d9488; --teal-text:   #2dd4bf;
+    --slate-bg:     #111827; --slate-border:  #374151; --slate-text:  #9ca3af;
+    --rose-bg:      #1a0808; --rose-border:   #e11d48; --rose-text:   #fb7185;
+    --coral-bg:     #1a0f08; --coral-border:  #ea580c; --coral-text:  #fb923c;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text1);
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+
+  .page-title { text-align: center; font-size: 18px; font-weight: 600; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .page-subtitle { text-align: center; font-size: 13px; color: var(--text3); margin-bottom: 12px; }
+  .page-date { text-align: center; font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 40px; }
+
+  .diagram { max-width: 1200px; margin: 0 auto; }
+
+  .progress-summary { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-bottom: 36px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--text2); }
+  .progress-pct { font-size: 22px; font-weight: 700; color: var(--green-text); font-family: var(--mono); }
+  .progress-bar-track { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+  .progress-bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+  .progress-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+  .progress-stat { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
+  .stat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .stat-dot.done { background: var(--green-text); }
+  .stat-dot.progress { background: var(--amber-text); }
+  .stat-dot.blocked { background: var(--rose-text); }
+  .stat-dot.todo { background: var(--slate-text); }
+
+  .workstreams { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 36px; }
+  .ws-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; }
+  .ws-band { padding: 16px 20px 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .ws-id { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+  .ws-name { font-size: 14px; font-weight: 700; }
+  .ws-pct { font-size: 18px; font-weight: 700; font-family: var(--mono); }
+  .ws-bar-track { height: 3px; background: var(--border); margin: 0 20px; }
+  .ws-bar-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+  .ws-tasks { padding: 14px 20px 18px; display: flex; flex-direction: column; gap: 6px; }
+  .task { font-size: 11px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+  .task-icon { flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .task-text { color: var(--text2); }
+  .task.done .task-text { color: var(--green-text); text-decoration: line-through; opacity: 0.7; }
+  .task.progress .task-text { color: var(--amber-text); }
+  .task.blocked .task-text { color: var(--rose-text); }
+
+  .ws-green  { border-color: var(--green-border); }
+  .ws-green .ws-band { background: var(--green-bg); }
+  .ws-green .ws-id, .ws-green .ws-name, .ws-green .ws-pct { color: var(--green-text); }
+  .ws-green .ws-bar-fill { background: var(--green-text); }
+
+  .ws-amber  { border-color: var(--amber-border); }
+  .ws-amber .ws-band { background: var(--amber-bg); }
+  .ws-amber .ws-id, .ws-amber .ws-name, .ws-amber .ws-pct { color: var(--amber-text); }
+  .ws-amber .ws-bar-fill { background: var(--amber-text); }
+
+  .ws-blue   { border-color: var(--blue-border); }
+  .ws-blue .ws-band { background: var(--blue-bg); }
+  .ws-blue .ws-id, .ws-blue .ws-name, .ws-blue .ws-pct { color: var(--blue-text); }
+  .ws-blue .ws-bar-fill { background: var(--blue-text); }
+
+  .ws-purple { border-color: var(--purple-border); }
+  .ws-purple .ws-band { background: var(--purple-bg); }
+  .ws-purple .ws-id, .ws-purple .ws-name, .ws-purple .ws-pct { color: var(--purple-text); }
+  .ws-purple .ws-bar-fill { background: var(--purple-text); }
+
+  .ws-teal   { border-color: var(--teal-border); }
+  .ws-teal .ws-band { background: var(--teal-bg); }
+  .ws-teal .ws-id, .ws-teal .ws-name, .ws-teal .ws-pct { color: var(--teal-text); }
+  .ws-teal .ws-bar-fill { background: var(--teal-text); }
+
+  .ws-slate  { border-color: var(--slate-border); }
+  .ws-slate .ws-band { background: var(--slate-bg); }
+  .ws-slate .ws-id, .ws-slate .ws-name, .ws-slate .ws-pct { color: var(--slate-text); }
+  .ws-slate .ws-bar-fill { background: var(--slate-text); }
+
+  .ws-coral  { border-color: var(--coral-border); }
+  .ws-coral .ws-band { background: var(--coral-bg); }
+  .ws-coral .ws-id, .ws-coral .ws-name, .ws-coral .ws-pct { color: var(--coral-text); }
+  .ws-coral .ws-bar-fill { background: var(--coral-text); }
+
+  .ws-rose   { border-color: var(--rose-border); }
+  .ws-rose .ws-band { background: var(--rose-bg); }
+  .ws-rose .ws-id, .ws-rose .ws-name, .ws-rose .ws-pct { color: var(--rose-text); }
+  .ws-rose .ws-bar-fill { background: var(--rose-text); }
+
+  .legend { display: flex; gap: 20px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+  .legend-item { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
+
+  .nav-links { display: flex; gap: 12px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+  .nav-link { font-size: 12px; font-weight: 600; color: var(--blue-text); background: var(--blue-bg); border: 1px solid var(--blue-border); padding: 6px 16px; border-radius: 6px; text-decoration: none; transition: opacity 0.2s; }
+  .nav-link:hover { opacity: 0.8; }
+  .nav-link.teal { color: var(--teal-text); background: var(--teal-bg); border-color: var(--teal-border); }
+  .nav-link.purple { color: var(--purple-text); background: var(--purple-bg); border-color: var(--purple-border); }
+
+  .next-items { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px 28px; margin-bottom: 24px; }
+  .next-items h3 { font-size: 11px; font-weight: 700; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .next-items ol { padding-left: 18px; }
+  .next-items li { font-size: 12px; color: var(--text2); margin-bottom: 8px; line-height: 1.5; }
+  .next-items li strong { color: var(--rose-text); font-weight: 700; }
+  .next-items li em { color: var(--amber-text); font-style: normal; }
+</style>
+</head>
+<body>
+
+<div class="diagram">
+  <div class="page-title">parnellsystems.com</div>
+  <div class="page-subtitle">GTM &amp; Build Plan Progress</div>
+  <div class="page-date">Last updated: 2026-04-13</div>
+
+  <div class="nav-links">
+    <a class="nav-link" href="../index.html">&larr; Project Docs</a>
+    <a class="nav-link teal" href="https://parnellsystems.com" target="_blank" rel="noopener">&#127760; Live Site</a>
+    <a class="nav-link purple" href="https://github.com/gilesparnell/parnellsystems/tree/main/docs/plans" target="_blank" rel="noopener">&#128506; Plans Folder</a>
+  </div>
+
+  <!-- ── OVERALL PROGRESS ── -->
+  <!-- 29 done, 3 in progress, 1 blocked, 30 todo / 63 total = ~48% -->
+  <div class="progress-summary">
+    <div class="progress-header">
+      <span class="progress-label">Overall Plan Completion</span>
+      <span class="progress-pct">~48%</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" style="width: 48%; background: linear-gradient(90deg, var(--green-text), var(--amber-text))"></div>
+    </div>
+    <div class="progress-stats">
+      <div class="progress-stat"><span class="stat-dot done"></span> 29 tasks done</div>
+      <div class="progress-stat"><span class="stat-dot progress"></span> 3 in progress</div>
+      <div class="progress-stat"><span class="stat-dot blocked"></span> 1 blocked (Meta BM)</div>
+      <div class="progress-stat"><span class="stat-dot todo"></span> 30 remaining</div>
+    </div>
+  </div>
+
+  <!-- ── WORKSTREAM CARDS ── -->
+  <div class="workstreams">
+
+    <!-- W1: Tracking / SEO / Blocker Fixes — 12 done, 1 progress, 1 blocked, 2 todo of 16 = ~78% -->
+    <div class="ws-card ws-amber">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W1 &middot; Launch Prep</div>
+          <div class="ws-name">Tracking, SEO &amp; Blockers</div>
+        </div>
+        <div class="ws-pct">78%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:78%"></div></div>
+      <div class="ws-tasks">
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Stripe payment links (test) + CTAs wired</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Privacy + Terms pages shipped</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">/demos index route added</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Real testimonials replace placeholders</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">UTM passthrough to forms</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">OG tags + OG image asset</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">GA4 integration (G-W5KLWM7QB0)</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">useSEO hook + per-page meta</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Sitemap + robots.txt</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Pricing page + annual toggle</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Early-access banner</span></div>
+        <div class="task progress"><span class="task-icon">&#9672;</span> <span class="task-text">Google Search Console verification (Giles)</span></div>
+        <div class="task blocked"><span class="task-icon">&#9888;&#65039;</span> <span class="task-text">Facebook Pixel &mdash; Meta BM ban, new account pending</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">JSON-LD structured data + prerenderer</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Google Business Profile setup</span></div>
+      </div>
+    </div>
+
+    <!-- W9: Homepage UX Redesign — 9 done, 1 progress of 10 = 95% -->
+    <div class="ws-card ws-green">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W9 &middot; Design</div>
+          <div class="ws-name">Homepage UX Redesign</div>
+        </div>
+        <div class="ws-pct">95%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:95%"></div></div>
+      <div class="ws-tasks">
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Plus Jakarta Sans typography swap</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Hero rewrite: audience + single CTA</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Services: consolidated WhatWeDo</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Social proof: testimonials + credentials</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Use cases: industry context labels</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">FAQ section (6 questions, Accordion)</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Low-commitment secondary CTA form</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">About: larger photo + credential pills</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Section reorder + anchor links</span></div>
+        <div class="task progress"><span class="task-icon">&#9672;</span> <span class="task-text">ProcessSection contrast review</span></div>
+      </div>
+    </div>
+
+    <!-- W8: Voice Product Brand Migration — 5/5 = 100% -->
+    <div class="ws-card ws-green">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W8 &middot; Migration</div>
+          <div class="ws-name">Voice Product Brand Migration</div>
+        </div>
+        <div class="ws-pct">100%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:100%"></div></div>
+      <div class="ws-tasks">
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">voice.parnellsystems.com subdomain</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">GHL account sole ownership transfer</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Twilio phone number provisioning</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">7 industry demo pages rebuilt &amp; live</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Voice product branding applied (brand TBD)</span></div>
+      </div>
+    </div>
+
+    <!-- W5: Client Onboarding + Stripe Live — 3 done, 1 progress, 5 todo of 9 = ~39% -->
+    <div class="ws-card ws-amber">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W5 &middot; Onboarding</div>
+          <div class="ws-name">Client Onboarding &amp; Stripe</div>
+        </div>
+        <div class="ws-pct">39%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:39%"></div></div>
+      <div class="ws-tasks">
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">GST registration (ABN 39 171 610 698)</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Stripe products + prices (test mode)</span></div>
+        <div class="task done"><span class="task-icon">&#10003;</span> <span class="task-text">Payment links live (test mode)</span></div>
+        <div class="task progress"><span class="task-icon">&#9672;</span> <span class="task-text">ASIC business registration (pending)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Stripe live mode replication</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Client onboarding form (GHL)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Post-form workflow integration</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Niche setup runbooks</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Existing customer migration calls</span></div>
+      </div>
+    </div>
+
+    <!-- W2: VSL Videos — 0/6 = 0% -->
+    <div class="ws-card ws-slate">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W2 &middot; Creative</div>
+          <div class="ws-name">Website + VSL Videos</div>
+        </div>
+        <div class="ws-pct">0%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:0%"></div></div>
+      <div class="ws-tasks">
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">HeyGen setup + avatar creation</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">VSL scripts (7 niches + general)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Record videos in HeyGen</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Pain-point stats on demo pages</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Embed videos on website</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Ad creative versions (9:16, 1:1)</span></div>
+      </div>
+    </div>
+
+    <!-- W3: Facebook/Instagram Ads — 0/4 — blocked -->
+    <div class="ws-card ws-rose">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W3 &middot; Paid Media</div>
+          <div class="ws-name">Facebook / Instagram Ads</div>
+        </div>
+        <div class="ws-pct">0%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:0%"></div></div>
+      <div class="ws-tasks">
+        <div class="task blocked"><span class="task-icon">&#9888;&#65039;</span> <span class="task-text">Meta Business Manager (new account pending)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Campaign structure per niche</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Landing page optimisation</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Launch 3 campaigns + retargeting</span></div>
+      </div>
+    </div>
+
+    <!-- W4: GHL Lead Nurture — 0/5 = 0% -->
+    <div class="ws-card ws-slate">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W4 &middot; Nurture</div>
+          <div class="ws-name">GHL Lead Management</div>
+        </div>
+        <div class="ws-pct">0%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:0%"></div></div>
+      <div class="ws-tasks">
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Pipeline setup (8 stages)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Speed-to-lead (&lt; 60s)</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">90-day nurture sequence</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">GHL AI lead qualification</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Notification workflows</span></div>
+      </div>
+    </div>
+
+    <!-- W6: Cold Outreach — 0/4 -->
+    <div class="ws-card ws-slate">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W6 &middot; Outbound</div>
+          <div class="ws-name">Automated Cold Outreach</div>
+        </div>
+        <div class="ws-pct">0%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:0%"></div></div>
+      <div class="ws-tasks">
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Google Maps scraping + review analysis</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Pain-signal keyword scanning</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Personalised outreach sequences</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Deep plan for this workstream</span></div>
+      </div>
+    </div>
+
+    <!-- W7: Database Reactivation — 0/4 -->
+    <div class="ws-card ws-slate">
+      <div class="ws-band">
+        <div>
+          <div class="ws-id">W7 &middot; Wedge Product</div>
+          <div class="ws-name">Database Reactivation</div>
+        </div>
+        <div class="ws-pct">0%</div>
+      </div>
+      <div class="ws-bar-track"><div class="ws-bar-fill" style="width:0%"></div></div>
+      <div class="ws-tasks">
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Product packaging + pricing model</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Website landing page</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">GHL workflow templates</span></div>
+        <div class="task"><span class="task-icon">&#9675;</span> <span class="task-text">Onboarding wedge strategy</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── IMMEDIATE NEXT ── -->
+  <div class="next-items">
+    <h3>Top Immediate Next Items</h3>
+    <ol>
+      <li><strong>[BLOCKER]</strong> Resolve Meta Business Manager ban &mdash; new account creation unblocks W3 ad campaigns. Giles to create new Meta account; Claude to re-test Pixel once ready.</li>
+      <li>HeyGen VSL videos (W2.1&ndash;2.3) &mdash; avatar setup + record scripts for 7 niches. <em>Highest conversion uplift.</em></li>
+      <li>Stripe live mode setup (W5.5) &mdash; replicate test products/prices into live mode. <em>Revenue blocker.</em></li>
+      <li>GHL nurture workflows (W4.1&ndash;4.3) &mdash; 90-day sequence wired to form submissions.</li>
+      <li>ProcessSection final contrast review (W9.10) &mdash; ship redesigned homepage before VSL integration.</li>
+    </ol>
+  </div>
+
+  <!-- ── LEGEND ── -->
+  <div class="legend">
+    <div class="legend-item"><span class="stat-dot done"></span> Done</div>
+    <div class="legend-item"><span class="stat-dot progress"></span> In Progress</div>
+    <div class="legend-item"><span class="stat-dot blocked"></span> Blocked</div>
+    <div class="legend-item"><span class="stat-dot todo"></span> Not Started</div>
+  </div>
+
+</div>
+</body>
+</html>
